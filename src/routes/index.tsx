@@ -10,7 +10,7 @@ import advert from "@/assets/apfa-advert.png.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Allen Premier Football Academy — Train Like a Pro, Become a Legend" },
+      { title: "Allen Premier Football Academy — Catch Them Young" },
       {
         name: "description",
         content:
@@ -86,14 +86,19 @@ function Home() {
         />
         <div className="absolute inset-0" style={{ background: "rgba(0, 34, 0, 0.72)" }} />
         <div className="relative mx-auto w-full max-w-6xl px-4 py-24 text-center">
+          <p className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-white/80">
+            Allen Premier Football Academy
+          </p>
           <h1 className="display text-4xl uppercase leading-tight text-white sm:text-6xl">
-            Train Like a Pro,
+            Catch Them Young.
             <br />
-            Become a <span style={{ color: "#FFD700" }}>Legend</span>
+            <span style={{ color: "#FFD700" }}>Build Them Strong.</span>
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base text-white/90">
-            Empowering the next generation of footballers with world-class training and discipline.
+            Empowering the next generation of footballers with world-class training, discipline and
+            free structured education.
           </p>
+
           <div className="mt-9 flex flex-wrap justify-center gap-4">
             <Link to="/join" className="btn-firm">
               Start Your Journey

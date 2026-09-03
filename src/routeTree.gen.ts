@@ -10,14 +10,31 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CoachesRouteImport } from './routes/coaches'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as EducationRouteImport } from './routes/education'
 import { Route as EventsRouteImport } from './routes/events'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as JoinRouteImport } from './routes/join'
 import { Route as ProgramsRouteImport } from './routes/programs'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as ScreeningRouteImport } from './routes/screening'
+import { Route as SubscriptionRouteImport } from './routes/subscription'
 import { Route as TrainingRouteImport } from './routes/training'
+import { Route as CoursesCourseIdRouteImport } from './routes/courses.$courseId'
+import { Route as LessonsLessonIdRouteImport } from './routes/lessons.$lessonId'
+import { Route as QuizzesQuizIdRouteImport } from './routes/quizzes.$quizId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CoachesRoute = CoachesRouteImport.update({
@@ -25,9 +42,34 @@ const CoachesRoute = CoachesRouteImport.update({
   path: '/coaches',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EducationRoute = EducationRouteImport.update({
+  id: '/education',
+  path: '/education',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EventsRoute = EventsRouteImport.update({
   id: '/events',
   path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JoinRoute = JoinRouteImport.update({
+  id: '/join',
+  path: '/join',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProgramsRoute = ProgramsRouteImport.update({
@@ -35,48 +77,178 @@ const ProgramsRoute = ProgramsRouteImport.update({
   path: '/programs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScreeningRoute = ScreeningRouteImport.update({
+  id: '/screening',
+  path: '/screening',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SubscriptionRoute = SubscriptionRouteImport.update({
+  id: '/subscription',
+  path: '/subscription',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TrainingRoute = TrainingRouteImport.update({
   id: '/training',
   path: '/training',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CoursesCourseIdRoute = CoursesCourseIdRouteImport.update({
+  id: '/courses/$courseId',
+  path: '/courses/$courseId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LessonsLessonIdRoute = LessonsLessonIdRouteImport.update({
+  id: '/lessons/$lessonId',
+  path: '/lessons/$lessonId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuizzesQuizIdRoute = QuizzesQuizIdRouteImport.update({
+  id: '/quizzes/$quizId',
+  path: '/quizzes/$quizId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/coaches': typeof CoachesRoute
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
+  '/education': typeof EducationRoute
   '/events': typeof EventsRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/join': typeof JoinRoute
   '/programs': typeof ProgramsRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/screening': typeof ScreeningRoute
+  '/subscription': typeof SubscriptionRoute
   '/training': typeof TrainingRoute
+  '/courses/$courseId': typeof CoursesCourseIdRoute
+  '/lessons/$lessonId': typeof LessonsLessonIdRoute
+  '/quizzes/$quizId': typeof QuizzesQuizIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/coaches': typeof CoachesRoute
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
+  '/education': typeof EducationRoute
   '/events': typeof EventsRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/join': typeof JoinRoute
   '/programs': typeof ProgramsRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/screening': typeof ScreeningRoute
+  '/subscription': typeof SubscriptionRoute
   '/training': typeof TrainingRoute
+  '/courses/$courseId': typeof CoursesCourseIdRoute
+  '/lessons/$lessonId': typeof LessonsLessonIdRoute
+  '/quizzes/$quizId': typeof QuizzesQuizIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/coaches': typeof CoachesRoute
+  '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
+  '/education': typeof EducationRoute
   '/events': typeof EventsRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/join': typeof JoinRoute
   '/programs': typeof ProgramsRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/screening': typeof ScreeningRoute
+  '/subscription': typeof SubscriptionRoute
   '/training': typeof TrainingRoute
+  '/courses/$courseId': typeof CoursesCourseIdRoute
+  '/lessons/$lessonId': typeof LessonsLessonIdRoute
+  '/quizzes/$quizId': typeof QuizzesQuizIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/coaches' | '/events' | '/programs' | '/training'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/coaches'
+    | '/contact'
+    | '/dashboard'
+    | '/education'
+    | '/events'
+    | '/forgot-password'
+    | '/join'
+    | '/programs'
+    | '/reset-password'
+    | '/screening'
+    | '/subscription'
+    | '/training'
+    | '/courses/$courseId'
+    | '/lessons/$lessonId'
+    | '/quizzes/$quizId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/coaches' | '/events' | '/programs' | '/training'
-  id: '__root__' | '/' | '/coaches' | '/events' | '/programs' | '/training'
+  to:
+    | '/'
+    | '/auth'
+    | '/coaches'
+    | '/contact'
+    | '/dashboard'
+    | '/education'
+    | '/events'
+    | '/forgot-password'
+    | '/join'
+    | '/programs'
+    | '/reset-password'
+    | '/screening'
+    | '/subscription'
+    | '/training'
+    | '/courses/$courseId'
+    | '/lessons/$lessonId'
+    | '/quizzes/$quizId'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/coaches'
+    | '/contact'
+    | '/dashboard'
+    | '/education'
+    | '/events'
+    | '/forgot-password'
+    | '/join'
+    | '/programs'
+    | '/reset-password'
+    | '/screening'
+    | '/subscription'
+    | '/training'
+    | '/courses/$courseId'
+    | '/lessons/$lessonId'
+    | '/quizzes/$quizId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
   CoachesRoute: typeof CoachesRoute
+  ContactRoute: typeof ContactRoute
+  DashboardRoute: typeof DashboardRoute
+  EducationRoute: typeof EducationRoute
   EventsRoute: typeof EventsRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  JoinRoute: typeof JoinRoute
   ProgramsRoute: typeof ProgramsRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  ScreeningRoute: typeof ScreeningRoute
+  SubscriptionRoute: typeof SubscriptionRoute
   TrainingRoute: typeof TrainingRoute
+  CoursesCourseIdRoute: typeof CoursesCourseIdRoute
+  LessonsLessonIdRoute: typeof LessonsLessonIdRoute
+  QuizzesQuizIdRoute: typeof QuizzesQuizIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -88,11 +260,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/coaches': {
       id: '/coaches'
       path: '/coaches'
       fullPath: '/coaches'
       preLoaderRoute: typeof CoachesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/education': {
+      id: '/education'
+      path: '/education'
+      fullPath: '/education'
+      preLoaderRoute: typeof EducationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/events': {
@@ -102,11 +302,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/join': {
+      id: '/join'
+      path: '/join'
+      fullPath: '/join'
+      preLoaderRoute: typeof JoinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/programs': {
       id: '/programs'
       path: '/programs'
       fullPath: '/programs'
       preLoaderRoute: typeof ProgramsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/screening': {
+      id: '/screening'
+      path: '/screening'
+      fullPath: '/screening'
+      preLoaderRoute: typeof ScreeningRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/subscription': {
+      id: '/subscription'
+      path: '/subscription'
+      fullPath: '/subscription'
+      preLoaderRoute: typeof SubscriptionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/training': {
@@ -116,15 +351,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TrainingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/courses/$courseId': {
+      id: '/courses/$courseId'
+      path: '/courses/$courseId'
+      fullPath: '/courses/$courseId'
+      preLoaderRoute: typeof CoursesCourseIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lessons/$lessonId': {
+      id: '/lessons/$lessonId'
+      path: '/lessons/$lessonId'
+      fullPath: '/lessons/$lessonId'
+      preLoaderRoute: typeof LessonsLessonIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quizzes/$quizId': {
+      id: '/quizzes/$quizId'
+      path: '/quizzes/$quizId'
+      fullPath: '/quizzes/$quizId'
+      preLoaderRoute: typeof QuizzesQuizIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
   CoachesRoute: CoachesRoute,
+  ContactRoute: ContactRoute,
+  DashboardRoute: DashboardRoute,
+  EducationRoute: EducationRoute,
   EventsRoute: EventsRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  JoinRoute: JoinRoute,
   ProgramsRoute: ProgramsRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  ScreeningRoute: ScreeningRoute,
+  SubscriptionRoute: SubscriptionRoute,
   TrainingRoute: TrainingRoute,
+  CoursesCourseIdRoute: CoursesCourseIdRoute,
+  LessonsLessonIdRoute: LessonsLessonIdRoute,
+  QuizzesQuizIdRoute: QuizzesQuizIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
