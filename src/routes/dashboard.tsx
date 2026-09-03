@@ -94,7 +94,7 @@ function Dashboard() {
     ...(attempts ?? []).map((a) => ({
       key: `a-${a.id}`,
       label: `Quiz: ${(a.quizzes as { title?: string } | null)?.title ?? "Quiz"}`,
-      detail: `${a.score}/${a.max_score} (${Math.round(a.percentage)}%)`,
+      detail: `${a.score}/${10} (${Math.round(a.percentage)}%)`,
       at: a.completed_at,
     })),
   ];
