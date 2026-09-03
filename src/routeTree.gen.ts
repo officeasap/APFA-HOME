@@ -11,8 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CoachesRouteImport } from './routes/coaches'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as EducationRouteImport } from './routes/education'
 import { Route as EventsRouteImport } from './routes/events'
+import { Route as JoinRouteImport } from './routes/join'
 import { Route as ProgramsRouteImport } from './routes/programs'
+import { Route as ScreeningRouteImport } from './routes/screening'
 import { Route as TrainingRouteImport } from './routes/training'
 
 const IndexRoute = IndexRouteImport.update({
@@ -25,14 +29,34 @@ const CoachesRoute = CoachesRouteImport.update({
   path: '/coaches',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EducationRoute = EducationRouteImport.update({
+  id: '/education',
+  path: '/education',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EventsRoute = EventsRouteImport.update({
   id: '/events',
   path: '/events',
   getParentRoute: () => rootRouteImport,
 } as any)
+const JoinRoute = JoinRouteImport.update({
+  id: '/join',
+  path: '/join',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProgramsRoute = ProgramsRouteImport.update({
   id: '/programs',
   path: '/programs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScreeningRoute = ScreeningRouteImport.update({
+  id: '/screening',
+  path: '/screening',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TrainingRoute = TrainingRouteImport.update({
@@ -44,38 +68,82 @@ const TrainingRoute = TrainingRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/coaches': typeof CoachesRoute
+  '/contact': typeof ContactRoute
+  '/education': typeof EducationRoute
   '/events': typeof EventsRoute
+  '/join': typeof JoinRoute
   '/programs': typeof ProgramsRoute
+  '/screening': typeof ScreeningRoute
   '/training': typeof TrainingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/coaches': typeof CoachesRoute
+  '/contact': typeof ContactRoute
+  '/education': typeof EducationRoute
   '/events': typeof EventsRoute
+  '/join': typeof JoinRoute
   '/programs': typeof ProgramsRoute
+  '/screening': typeof ScreeningRoute
   '/training': typeof TrainingRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/coaches': typeof CoachesRoute
+  '/contact': typeof ContactRoute
+  '/education': typeof EducationRoute
   '/events': typeof EventsRoute
+  '/join': typeof JoinRoute
   '/programs': typeof ProgramsRoute
+  '/screening': typeof ScreeningRoute
   '/training': typeof TrainingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/coaches' | '/events' | '/programs' | '/training'
+  fullPaths:
+    | '/'
+    | '/coaches'
+    | '/contact'
+    | '/education'
+    | '/events'
+    | '/join'
+    | '/programs'
+    | '/screening'
+    | '/training'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/coaches' | '/events' | '/programs' | '/training'
-  id: '__root__' | '/' | '/coaches' | '/events' | '/programs' | '/training'
+  to:
+    | '/'
+    | '/coaches'
+    | '/contact'
+    | '/education'
+    | '/events'
+    | '/join'
+    | '/programs'
+    | '/screening'
+    | '/training'
+  id:
+    | '__root__'
+    | '/'
+    | '/coaches'
+    | '/contact'
+    | '/education'
+    | '/events'
+    | '/join'
+    | '/programs'
+    | '/screening'
+    | '/training'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CoachesRoute: typeof CoachesRoute
+  ContactRoute: typeof ContactRoute
+  EducationRoute: typeof EducationRoute
   EventsRoute: typeof EventsRoute
+  JoinRoute: typeof JoinRoute
   ProgramsRoute: typeof ProgramsRoute
+  ScreeningRoute: typeof ScreeningRoute
   TrainingRoute: typeof TrainingRoute
 }
 
@@ -95,6 +163,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CoachesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/education': {
+      id: '/education'
+      path: '/education'
+      fullPath: '/education'
+      preLoaderRoute: typeof EducationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/events': {
       id: '/events'
       path: '/events'
@@ -102,11 +184,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/join': {
+      id: '/join'
+      path: '/join'
+      fullPath: '/join'
+      preLoaderRoute: typeof JoinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/programs': {
       id: '/programs'
       path: '/programs'
       fullPath: '/programs'
       preLoaderRoute: typeof ProgramsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/screening': {
+      id: '/screening'
+      path: '/screening'
+      fullPath: '/screening'
+      preLoaderRoute: typeof ScreeningRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/training': {
@@ -122,8 +218,12 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CoachesRoute: CoachesRoute,
+  ContactRoute: ContactRoute,
+  EducationRoute: EducationRoute,
   EventsRoute: EventsRoute,
+  JoinRoute: JoinRoute,
   ProgramsRoute: ProgramsRoute,
+  ScreeningRoute: ScreeningRoute,
   TrainingRoute: TrainingRoute,
 }
 export const routeTree = rootRouteImport
