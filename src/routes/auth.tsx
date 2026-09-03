@@ -88,10 +88,13 @@ function Auth() {
   }
 
   async function doGoogle() {
-    const { lovable } = await import("@/integrations/lovable/index");
-    const result = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
-    if (result.error) toast.error("Google sign-in failed. Please try email sign-in.");
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.origin },
+    });
+    if (error) toast.error("Google sign-in failed. Please try email sign-in.");
   }
+
 
   return (
     <main className="mx-auto flex w-full max-w-md flex-col items-center px-4 py-16">

@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CoachesRouteImport } from './routes/coaches'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as EducationRouteImport } from './routes/education'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
@@ -41,6 +42,11 @@ const CoachesRoute = CoachesRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EducationRoute = EducationRouteImport.update({
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/coaches': typeof CoachesRoute
   '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
   '/education': typeof EducationRoute
   '/events': typeof EventsRoute
   '/forgot-password': typeof ForgotPasswordRoute
@@ -109,6 +116,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/coaches': typeof CoachesRoute
   '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
   '/education': typeof EducationRoute
   '/events': typeof EventsRoute
   '/forgot-password': typeof ForgotPasswordRoute
@@ -125,6 +133,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/coaches': typeof CoachesRoute
   '/contact': typeof ContactRoute
+  '/dashboard': typeof DashboardRoute
   '/education': typeof EducationRoute
   '/events': typeof EventsRoute
   '/forgot-password': typeof ForgotPasswordRoute
@@ -142,6 +151,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/coaches'
     | '/contact'
+    | '/dashboard'
     | '/education'
     | '/events'
     | '/forgot-password'
@@ -157,6 +167,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/coaches'
     | '/contact'
+    | '/dashboard'
     | '/education'
     | '/events'
     | '/forgot-password'
@@ -172,6 +183,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/coaches'
     | '/contact'
+    | '/dashboard'
     | '/education'
     | '/events'
     | '/forgot-password'
@@ -188,6 +200,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   CoachesRoute: typeof CoachesRoute
   ContactRoute: typeof ContactRoute
+  DashboardRoute: typeof DashboardRoute
   EducationRoute: typeof EducationRoute
   EventsRoute: typeof EventsRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
@@ -227,6 +240,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/education': {
@@ -300,6 +320,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   CoachesRoute: CoachesRoute,
   ContactRoute: ContactRoute,
+  DashboardRoute: DashboardRoute,
   EducationRoute: EducationRoute,
   EventsRoute: EventsRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
