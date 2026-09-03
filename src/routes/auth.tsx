@@ -49,7 +49,7 @@ function Auth() {
     e.preventDefault();
     const parsed = loginSchema.safeParse(loginForm);
     if (!parsed.success) {
-      toast.error(parsed.error.issues[0].message);
+      toast.error(parsed.error.issues[0]?.message ?? "Invalid input");
       return;
     }
     setBusy(true);
@@ -67,7 +67,7 @@ function Auth() {
     e.preventDefault();
     const parsed = registerSchema.safeParse(regForm);
     if (!parsed.success) {
-      toast.error(parsed.error.issues[0].message);
+      toast.error(parsed.error.issues[0]?.message ?? "Invalid input");
       return;
     }
     setBusy(true);

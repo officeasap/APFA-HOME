@@ -48,7 +48,7 @@ function Subscription() {
     }
     setBusy(plan);
     const { error } = await supabase.from("subscriptions").upsert(
-      { user_id: user.id, plan, status: "ACTIVE", start_date: new Date().toISOString() },
+      { user_id: user.id, plan: plan as "FREE" | "PREMIUM" | "ELITE", status: "ACTIVE", start_date: new Date().toISOString() },
       { onConflict: "user_id" },
     );
     setBusy(null);

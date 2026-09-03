@@ -79,7 +79,7 @@ function LessonPage() {
   const course = lesson.courses as { id: string; title: string } | null;
 
   return (
-    <PageShell title={lesson.title} intro={course ? `Part of ${course.title}` : undefined}>
+    <PageShell title={lesson.title} intro={course ? `Part of ${course.title}` : ""}>
       <div className="grid gap-10 lg:grid-cols-3">
         <CathedralCard className="lg:col-span-2">
           <div className="mb-4 flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-muted-foreground">
