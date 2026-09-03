@@ -38,7 +38,7 @@ function CourseDetail() {
         .from("lessons")
         .select("*")
         .eq("course_id", courseId)
-        .order("order_index");
+        .order("order");
       if (error) throw error;
       return data;
     },
@@ -112,7 +112,7 @@ function CourseDetail() {
               </span>
               <div className="flex-1">
                 <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-                  Lesson {i + 1} · {lesson.duration_minutes} min
+                  Lesson {i + 1} · {lesson.duration ?? 0} min
                 </p>
                 <h2 className="engraved-title mt-1 text-lg uppercase">{lesson.title}</h2>
                 {lesson.content ? (
