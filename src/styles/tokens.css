@@ -1,0 +1,159 @@
+/* =========================================================
+ * APFA SMUDGEFIRE — AUTHORITATIVE VISUAL TOKENS
+ * Allen Premier Football Academy
+ * =========================================================
+ *
+ * This is the single source of truth for the APFA visual
+ * operating system. Every other stylesheet consumes these
+ * tokens. No stylesheet redefines them.
+ *
+ * LAW:
+ *   - Substrate is unbroken #d9d0c9. No texture. No image.
+ *   - Cards are #2f2e2c raised slabs.
+ *   - Header and sidebar are #2f2e2c raised slabs.
+ *   - Action is #6bc444 deep-pressed.
+ *   - Shadows are neutral black. No green tint. No white highlight.
+ *   - Focus is 3px solid #62a8c7, offset 3–4px.
+ * ========================================================= */
+
+:root {
+
+  /* =========================================================
+   * 01 — SUBSTRATE
+   * The world everything rests upon.
+   * ========================================================= */
+
+  --apfa-bg: #d9d0c9;             /* Smudge Smoked Powder — light */
+  --apfa-bg-deep: #cfc6bf;        /* Carved well / recessed substrate */
+
+  /* =========================================================
+   * 02 — STRUCTURAL SURFACES
+   * Raised slabs that sit on the substrate.
+   * ========================================================= */
+
+  --apfa-card: #2f2e2c;           /* Raised card, header, sidebar, deck */
+  --apfa-card-hover: #393836;     /* Reserved for hover-state fallback only */
+
+  /* =========================================================
+   * 03 — ACTION
+   * The single authoritative command surface.
+   * ========================================================= */
+
+  --apfa-primary: #6bc444;        /* Global action green */
+  --apfa-primary-hover: #5fb53a;  /* Pressed-state fallback only */
+
+  /* =========================================================
+   * 04 — SEMANTIC ACCENT SYSTEM
+   * Three accents, each with a reason.
+   * ========================================================= */
+
+  --apfa-orange: #e09552;         /* Attention / warning / retry */
+  --apfa-mint: #90e6b5;           /* Information / active / current */
+  --apfa-green-soft: #8ed087;     /* Success / completion / verified */
+
+  /* =========================================================
+   * 05 — TYPOGRAPHY INK
+   * ========================================================= */
+
+  --apfa-text-on-bg: #082408;              /* Primary ink on substrate */
+  --apfa-text-on-card: #fbedec;            /* Primary ink on dark surfaces */
+  --apfa-text-muted: rgba(8, 36, 8, 0.62); /* Muted ink on substrate */
+  --apfa-text-card-muted: rgba(251, 237, 236, 0.64); /* Muted on cards */
+
+  /* =========================================================
+   * 06 — FORMS
+   * Carved wells with legible ink.
+   * ========================================================= */
+
+  --apfa-placeholder: #365036;    /* Placeholder ink */
+  --apfa-input-ink: #082408;      /* Input text ink */
+
+  /* =========================================================
+   * 07 — FOCUS
+   * Single accessibility signal. No glow. No orange.
+   * ========================================================= */
+
+  --apfa-focus: #62a8c7;
+
+  /* =========================================================
+   * 08 — GEOMETRY
+   * ========================================================= */
+
+  --apfa-radius: 8px;
+  --apfa-radius-lg: 12px;
+  --apfa-radius-pill: 999px;
+
+  /* =========================================================
+   * 09 — STRUCTURAL SHADOWS
+   *
+   * Neutral black only. No green tint. No white highlight.
+   * Shadow communicates depth, not decoration.
+   * ========================================================= */
+
+  --apfa-shadow-rgb: 0, 0, 0;
+
+  /* Elevation 1 — subtle contact */
+  --apfa-elev-1:
+    0 3px 5px rgba(var(--apfa-shadow-rgb), 0.18),
+    0 1px 2px rgba(var(--apfa-shadow-rgb), 0.12);
+
+  /* Elevation 2 — raised control */
+  --apfa-elev-2:
+    0 6px 10px rgba(var(--apfa-shadow-rgb), 0.20),
+    0 12px 20px rgba(var(--apfa-shadow-rgb), 0.12);
+
+  /* Elevation 3 — raised card (default) */
+  --apfa-elev-3:
+    0 8px 14px rgba(var(--apfa-shadow-rgb), 0.22),
+    0 18px 30px rgba(var(--apfa-shadow-rgb), 0.14);
+
+  /* Elevation 4 — hover-lifted card / floating slab */
+  --apfa-elev-4:
+    0 10px 18px rgba(var(--apfa-shadow-rgb), 0.24),
+    0 24px 42px rgba(var(--apfa-shadow-rgb), 0.16);
+
+  /* =========================================================
+   * 10 — CARVED CONTROL (Deep-Pressed Wells)
+   *
+   * Pure top-left inset. No bottom-right white hint.
+   * ========================================================= */
+
+  --apfa-inset-deep:
+    inset 5px 6px 12px rgba(var(--apfa-shadow-rgb), 0.30),
+    inset 0 1px 2px rgba(var(--apfa-shadow-rgb), 0.18);
+
+  /* =========================================================
+   * 11 — FOCUS RING (Fallback Only)
+   *
+   * Prefer `outline: 3px solid var(--apfa-focus)` for focus.
+   * This box-shadow ring exists only for controls that
+   * cannot render an outline (e.g., inside overflow:hidden).
+   * ========================================================= */
+
+  --apfa-focus-ring:
+    0 0 0 3px #62a8c7;
+
+  /* =========================================================
+   * 12 — TYPOGRAPHY
+   * ========================================================= */
+
+  --font-display: "Inter", system-ui, sans-serif;
+  --font-editorial: "EB Garamond", Georgia, serif;
+
+  /* =========================================================
+   * 13 — DEPRECATED (Kept for migration visibility only)
+   *
+   * pre-Smudgefire systems. They are retained as empty
+   * shells so a `grep` can surface any lingering reference.
+   * Delete this block once no file references them.
+   * ========================================================= */
+
+  /* --apfa-card-green:       DEPRECATED — replaced by --apfa-primary */
+  /* --apfa-donation:         DEPRECATED — replaced by --apfa-orange */
+  /* --apfa-donation-hover:   DEPRECATED — replaced by --apfa-orange */
+  /* --apfa-accent-line:      DEPRECATED — replaced by --apfa-orange */
+  /* --apfa-success:          DEPRECATED — replaced by --apfa-green-soft */
+  /* --apfa-shadow:           DEPRECATED — shadow-rgb is neutral black */
+  /* --apfa-rim-light:        DEPRECATED — white highlight banned */
+  /* --apfa-inset-soft:       DEPRECATED — use --apfa-inset-deep */
+}

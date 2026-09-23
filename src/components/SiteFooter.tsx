@@ -1,105 +1,128 @@
-import { Link } from "@tanstack/react-router";
-import { Instagram, Music2, Ghost, Twitter, Youtube, MapPin, Phone, Mail } from "lucide-react";
-import logo from "@/assets/apfa-logo.png.asset.json";
-import { GrassBand } from "@/components/cathedral";
+import { Link } from "react-router-dom";
+import {
+  Instagram,
+  Music2,
+  Ghost,
+  Twitter,
+  Youtube,
+} from "lucide-react";
+
+const OFFICIAL_LOGO =
+  "/Allen-Premier-Football-Academy-Logo.png";
 
 const SOCIALS = [
-  { label: "Instagram", href: "https://instagram.com/allenpremierapfa2025", Icon: Instagram },
-  { label: "TikTok", href: "https://tiktok.com/@allenpremierapfa2025", Icon: Music2 },
-  { label: "Snapchat", href: "https://snapchat.com/add/apfacademy2025", Icon: Ghost },
-  { label: "X", href: "https://x.com/allenpremier201", Icon: Twitter },
-  { label: "YouTube", href: "https://youtube.com/@AllenPremierFootballAcademy", Icon: Youtube },
-];
-
-const LINKS = [
-  { to: "/", label: "Home" },
-  { to: "/programs", label: "Programs" },
-  { to: "/training", label: "Training" },
-  { to: "/coaches", label: "Coaches" },
-  { to: "/education", label: "Education" },
-  { to: "/contact", label: "Contact" },
+  {
+    label: "Instagram",
+    href: "https://instagram.com/allenpremierapfa2025",
+    Icon: Instagram,
+  },
+  {
+    label: "TikTok",
+    href: "https://tiktok.com/@allenpremierapfa2025",
+    Icon: Music2,
+  },
+  {
+    label: "Snapchat",
+    href: "https://snapchat.com/add/apfacademy2025",
+    Icon: Ghost,
+  },
+  {
+    label: "X",
+    href: "https://x.com/allenpremier201",
+    Icon: Twitter,
+  },
+  {
+    label: "YouTube",
+    href: "https://youtube.com/@AllenPremierFootballAcademy",
+    Icon: Youtube,
+  },
 ];
 
 export function SiteFooter() {
   return (
-    <footer className="mt-20">
-      <GrassBand height={40} />
-      <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 py-12 md:grid-cols-3">
+    <footer className="apfa-floating-slab mt-16 px-6 py-10">
+      <div className="mx-auto grid w-full max-w-6xl gap-10 md:grid-cols-2">
         <div>
-          <div className="flex items-center gap-3">
-            <span className="neu-circle flex h-16 w-16 items-center justify-center p-2">
-              <img src={logo.url} alt="Allen Premier Football Academy crest" className="h-full w-full object-contain" loading="lazy" />
+          <Link
+            to="/"
+            className="inline-flex items-center gap-4"
+            aria-label="Allen Premier Football Academy home"
+          >
+            <img
+              src={OFFICIAL_LOGO}
+              alt="Allen Premier Football Academy"
+              className="h-14 w-14 rounded-full object-contain"
+            />
+
+            <span className="display text-xl uppercase tracking-wide text-primary">
+              Allen Premier Football Academy
             </span>
-            <span>
-              <span className="display block text-lg uppercase text-accent">Allen Premier</span>
-              <span className="block text-[10px] font-bold uppercase tracking-[0.25em] text-muted-foreground">
-                Football Academy
-              </span>
-            </span>
-          </div>
-          <p className="mt-4 max-w-xs text-sm text-muted-foreground">
-            Catch them young, build them strong. Developing disciplined, tactically intelligent
-            footballers from Benin City to the world.
+          </Link>
+
+          <p className="mt-5 max-w-md text-sm text-[var(--apfa-text-on-card)]/75">
+            Catch Them Young. Build Them Strong.
           </p>
-          <div className="mt-5 flex flex-wrap gap-3">
+
+          <p className="mt-2 max-w-md text-sm text-[var(--apfa-text-on-card)]/75">
+            Youth football, character development and completely free
+            structured education for the community.
+          </p>
+
+          <div
+            className="mt-6 flex flex-wrap gap-3"
+            aria-label="Official social media"
+          >
             {SOCIALS.map(({ label, href, Icon }) => (
               <a
                 key={label}
                 href={href}
                 target="_blank"
                 rel="noreferrer"
-                aria-label={label}
-                className="neu-circle flex h-11 w-11 items-center justify-center text-accent transition-transform active:translate-y-0.5"
+                aria-label={`Allen Premier Football Academy on ${label}`}
+                title={label}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-[8px] bg-[var(--apfa-card-deep)] text-[#f8f1e4] shadow-[0_8px_16px_rgba(0,0,0,0.22)] transition-transform hover:-translate-y-0.5 hover:text-primary"
               >
-                <Icon size={18} />
+                <Icon
+                  className="h-5 w-5"
+                  strokeWidth={2}
+                  aria-hidden="true"
+                />
               </a>
             ))}
           </div>
         </div>
 
         <div>
-          <h3 className="engraved-title mb-4 text-lg uppercase">Navigate</h3>
-          <ul className="grid gap-2">
-            {LINKS.map((l) => (
-              <li key={l.to}>
-                <Link to={l.to} className="text-sm font-semibold uppercase tracking-wide text-accent hover:text-primary">
-                  {l.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+          <p className="text-xs font-bold uppercase tracking-[0.3em] text-primary">
+            Contact
+          </p>
 
-        <div>
-          <h3 className="engraved-title mb-4 text-lg uppercase">Contact</h3>
-          <ul className="grid gap-3 text-sm text-foreground">
-            <li className="flex gap-2">
-              <MapPin size={18} className="mt-0.5 shrink-0 text-primary" />
-              Benin City, Edo State, Nigeria
-            </li>
-            <li className="flex gap-2">
-              <Phone size={18} className="mt-0.5 shrink-0 text-primary" />
-              <span>
-                09050283400
-                <br />
-                08033459962
-                <br />
-                08103879566
-              </span>
-            </li>
-            <li className="flex gap-2">
-              <Mail size={18} className="mt-0.5 shrink-0 text-primary" />
-              <span>
-                admin@ap-fa.com
-                <br />
-                allenpremierapfa2025@gmail.com
-              </span>
-            </li>
-          </ul>
+          <p className="mt-4 text-sm text-[#f8f1e4]">
+            Allen Premier Football Academy
+          </p>
+
+          <p className="mt-2 text-sm text-[#f8f1e4]/75">
+            Benin City, Edo State, Nigeria
+          </p>
+
+          <p className="mt-2 text-sm text-[#f8f1e4]/75">
+            Community youth football and education.
+          </p>
         </div>
       </div>
-      <div className="border-t border-border py-5 text-center text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-        © 2028 Allen Premier Football Academy
+
+      <div className="mx-auto mt-10 flex w-full max-w-6xl flex-col items-center justify-center gap-3 border-t border-[#f8f1e4]/10 pt-5 text-center">
+        <img
+          src={OFFICIAL_LOGO}
+          alt=""
+          aria-hidden="true"
+          className="h-9 w-9 rounded-full object-contain opacity-90"
+        />
+
+        <p className="text-xs text-[#f8f1e4]/60">
+          © {new Date().getFullYear()} Allen Premier Football Academy.
+          All rights reserved.
+        </p>
       </div>
     </footer>
   );

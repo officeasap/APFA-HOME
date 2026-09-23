@@ -1,0 +1,36 @@
+/* ============================================================
+   APFA SMUDGEFIRE — FORM LAW
+   ============================================================ */
+
+input,
+textarea,
+select,
+[role="textbox"] {
+  background: var(--apfa-card-deep) !important;
+  color: var(--apfa-input-ink) !important;
+  border: 1px solid rgba(251, 237, 236, 0.10) !important;
+  border-radius: var(--apfa-radius) !important;
+  box-shadow: var(--apfa-inset-deep) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--apfa-placeholder) !important;
+  opacity: 1;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+[role="textbox"]:focus {
+  outline: 3px solid var(--apfa-focus) !important;
+  outline-offset: 4px !important;
+  box-shadow: var(--apfa-inset-deep) !important;
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}

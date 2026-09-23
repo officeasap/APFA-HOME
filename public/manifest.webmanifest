@@ -1,0 +1,24 @@
+{
+  "name": "Allen Premier Football Academy",
+  "short_name": "APFA",
+  "description": "Catch Them Young, Build Them Strong — youth football academy in Benin City, Nigeria.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1C1C1C",
+  "theme_color": "#1C1C1C",
+  "categories": ["sports", "education"],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ],
+  "shortcuts": [
+    { "name": "Join Academy", "url": "/join-academy" },
+    { "name": "Screening", "url": "/screening" },
+    { "name": "Education Hub", "url": "/education" },
+    { "name": "Contact", "url": "/contact" }
+  ]
+}

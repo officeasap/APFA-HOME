@@ -1,33 +1,102 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import type { Session, User } from "@supabase/supabase-js";
-import { supabase } from "@/integrations/supabase/client";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
+
+import {
+  clearSession,
+  getCurrentUser,
+  getSessionToken,
+  type ApiUser,
+} from "@/lib/api";
 
 type AuthValue = {
-  user: User | null;
-  session: Session | null;
+  user: ApiUser | null;
   loading: boolean;
+  refreshUser: () => Promise<void>;
+  setAuthenticatedUser: (user: ApiUser) => void;
+  clearAuth: () => void;
 };
 
-const AuthContext = createContext<AuthValue>({ user: null, session: null, loading: true });
+const AuthContext = createContext<AuthValue>({
+  user: null,
+  loading: true,
+  refreshUser: async () => {},
+  setAuthenticatedUser: () => {},
+  clearAuth: () => {},
+});
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [session, setSession] = useState<Session | null>(null);
+export function AuthProvider({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const [user, setUser] = useState<ApiUser | null>(null);
   const [loading, setLoading] = useState(true);
 
+  async function loadCurrentUser() {
+    const token = getSessionToken();
+
+    if (!token) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const currentUser = await getCurrentUser();
+      setUser(currentUser);
+    } catch {
+      clearSession();
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, next) => {
-      setSession(next);
-      setLoading(false);
-    });
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setLoading(false);
-    });
-    return () => sub.subscription.unsubscribe();
+    void loadCurrentUser();
   }, []);
 
+  async function refreshUser() {
+    const token = getSessionToken();
+
+    if (!token) {
+      setUser(null);
+      return;
+    }
+
+    try {
+      const currentUser = await getCurrentUser();
+      setUser(currentUser);
+    } catch {
+      clearSession();
+      setUser(null);
+    }
+  }
+
+  function setAuthenticatedUser(authenticatedUser: ApiUser) {
+    setUser(authenticatedUser);
+  }
+
+  function clearAuth() {
+    clearSession();
+    setUser(null);
+  }
+
   return (
-    <AuthContext.Provider value={{ user: session?.user ?? null, session, loading }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        refreshUser,
+        setAuthenticatedUser,
+        clearAuth,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

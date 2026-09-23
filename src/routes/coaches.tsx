@@ -1,73 +1,233 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { PageShell } from "@/components/cathedral";
-import coachOne from "@/assets/coach-one.png";
-import coachTwo from "@/assets/coach-two.png";
 
-export const Route = createFileRoute("/coaches")({
-  head: () => ({
-    meta: [
-      { title: "Coaches — Allen Premier Football Academy" },
-      { name: "description", content: "Meet the UEFA-licensed coaching staff guiding every Allen Premier Football Academy player." },
-      { property: "og:title", content: "Coaches — Allen Premier Football Academy" },
-      { property: "og:description", content: "Meet the UEFA-licensed coaching staff behind the academy." },
-    ],
-  }),
-  component: Coaches,
-});
+import {
+Award,
+BadgeCheck,
+Dumbbell,
+Goal,
+ShieldCheck,
+} from "lucide-react";
+
+import {
+CathedralCard,
+PageShell,
+SectionHeading,
+} from "@/components/cathedral";
+
+import esosaCourage from "@/assets/Esosa-courage.png";
+import ezeAghimen from "@/assets/Eze-aghimen.png";
+import ojoHarrison from "@/assets/ojoh.png";
+
+
+
+const COACHING_ENQUIRY =
+"Hello Allen Premier Football Academy, I would like to enquire about the coaching staff and their areas of expertise. Please provide further information.";
 
 const COACHES = [
-  {
-    name: "James Smith",
-    role: "Head Coach",
-    badge: "UEFA Elite Youth A Coach",
-    img: coachOne,
-    bio: "Twelve years developing youth internationals, specialising in possession structures and player mentality.",
-  },
-  {
-    name: "Henry Sutton",
-    role: "Technical Director",
-    badge: "UEFA Pro License Holder",
-    img: coachTwo,
-    bio: "Oversees the academy curriculum, scouting network and the pathway to European trials.",
-  },
+{
+name: "Mr. Aimiuwu Esosa Courage",
+role: "Head Coach",
+experience: "18+ Years Experience",
+license: "UEFA B License Holder",
+specialty: "Youth Development & Talent Identification",
+Icon: Award,
+image: esosaCourage,
+bio:
+"Former Technical Director of a Premier League club with extensive experience in youth development, talent identification and building disciplined football pathways for young players.",
+},
+{
+name: "Mr. Beauty Eze Aghimem",
+role: "Assistant Coach",
+experience: "12+ Years Experience",
+license: "CAF C License Holder",
+specialty: "Futsal Methodology & Small-Sided Games",
+Icon: ShieldCheck,
+image: ezeAghimen,
+bio:
+"An experienced youth football coach specialising in futsal methodology and small-sided games, helping players develop technical confidence, quick decision-making and intelligent movement.",
+},
+{
+name: "Mr. Enoghayinagbon Ojo Harrison",
+role: "Assistant Coach",
+experience: "10+ Years Experience",
+license: "Goalkeeper & Physical Conditioning Specialist",
+specialty: "Goalkeeper Training & Physical Development",
+Icon: Goal,
+image: ojoHarrison,
+bio:
+"Specialises in goalkeeper training and physical conditioning, helping young athletes develop athletic ability, positional confidence, discipline and the physical foundation required for competitive football.",
+},
 ];
 
-function Coaches() {
-  return (
-    <PageShell title="Coaches" intro="Licensed, experienced and accountable for every player's progress.">
-      <div className="grid gap-16 sm:grid-cols-2">
-        {COACHES.map((c) => (
-          <div key={c.name} className="relative pt-14">
-            <div
-              className="grass-shadow relative flex min-h-64 items-stretch p-5"
-              style={{
-                background: "#0d4a1e",
-                borderRadius: "24px 24px 4px 4px",
-                boxShadow: "8px 8px 16px rgba(0,0,0,0.35), -6px -6px 14px rgba(255,255,255,0.35)",
-              }}
-            >
-              <img
-                src={c.img}
-                alt={`${c.name}, ${c.role}`}
-                loading="lazy"
-                width={768}
-                height={1024}
-                className="pointer-events-none absolute -top-12 left-0 h-[21rem] w-auto object-contain"
-              />
-              <div className="ml-auto w-3/5 text-right">
-                <h2 className="display text-2xl uppercase text-white">{c.name}</h2>
-                <p className="text-sm text-white/80">{c.role}</p>
-                <div className="my-3 h-px w-full bg-white/25" />
-                <p className="text-sm font-semibold text-white/90">{c.badge}</p>
-                <p className="mt-3 text-xs text-white/80">{c.bio}</p>
-                <Link to="/contact" className="btn-firm mt-5 text-xs">
-                  Contact Staff
-                </Link>
+function openCoachingChat() {
+window.dispatchEvent(
+new CustomEvent("open-apfa-chat", {
+detail: {
+enquiry: "COACHING STAFF",
+message: COACHING_ENQUIRY,
+},
+}),
+);
+}
+
+export function Coaches() {
+return ( <PageShell
+   title="Our Coaches"
+   intro="Experienced, disciplined and committed to developing the next generation of footballers."
+ >
+{/* INTRO AUTHORITY BLOCK */} <section className="mb-16"> <SectionHeading
+       kicker="The Technical Team"
+       title="Coaching Authority"
+     />
+
+```
+    <div className="mx-auto max-w-3xl text-center">
+      <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
+        Every Allen Premier player is guided by experienced coaches
+        committed to technical development, tactical intelligence,
+        discipline and long-term player growth.
+      </p>
+    </div>
+  </section>
+
+  {/* COACH AUTHORITY — SINGLE DESKTOP ROW */}
+  <div className="grid w-full min-w-0 gap-8 md:grid-cols-3 lg:gap-10">
+    {COACHES.map(
+      ({
+        name,
+        role,
+        experience,
+        license,
+        specialty,
+        Icon,
+        image,
+        bio,
+      }) => (
+        <CathedralCard
+          key={name}
+          className="flex w-full min-w-0 flex-col"
+        >
+          {/* COACH IMAGE */}
+          <div className="relative mb-6 flex h-60 w-full min-w-0 items-end justify-center overflow-hidden rounded-[20px_20px_4px_4px] bg-[#145522] shadow-[inset_6px_7px_14px_rgba(20,18,14,0.28),inset_-3px_-3px_7px_rgba(0,0,0,0.08)] sm:h-64">
+            <div className="absolute left-4 top-4 z-10 rounded-[10px_10px_3px_3px] border border-white/15 bg-black/25 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-white shadow-[3px_3px_7px_rgba(0,0,0,0.28)]">
+              {role}
+            </div>
+
+            <img
+              src={image}
+              alt={`${name} — ${role}`}
+              loading="lazy"
+              className="relative z-10 block h-full w-full object-contain object-bottom px-3 pt-3 transition-transform duration-300 group-hover:scale-[1.02]"
+            />
+          </div>
+
+          {/* COACH IDENTITY */}
+          <div className="mb-4 min-w-0">
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+              {role}
+            </p>
+
+            <h2 className="engraved-title break-words text-xl uppercase leading-tight">
+              {name}
+            </h2>
+          </div>
+
+          <div className="mb-5 h-px w-full bg-border" />
+
+          {/* COACH CREDENTIALS */}
+          <div className="grid min-w-0 gap-4">
+            <div className="flex min-w-0 items-start gap-3">
+              <span className="neu-circle flex h-10 w-10 shrink-0 items-center justify-center text-accent">
+                <Award size={18} aria-hidden="true" />
+              </span>
+
+              <div className="min-w-0">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                  Experience
+                </p>
+
+                <p className="mt-1 text-sm font-semibold leading-snug text-foreground">
+                  {experience}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex min-w-0 items-start gap-3">
+              <span className="neu-circle flex h-10 w-10 shrink-0 items-center justify-center text-accent">
+                <BadgeCheck size={18} aria-hidden="true" />
+              </span>
+
+              <div className="min-w-0">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                  Qualification
+                </p>
+
+                <p className="mt-1 text-sm font-semibold leading-snug text-foreground">
+                  {license}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex min-w-0 items-start gap-3">
+              <span className="neu-circle flex h-10 w-10 shrink-0 items-center justify-center text-accent">
+                <Icon size={18} aria-hidden="true" />
+              </span>
+
+              <div className="min-w-0">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+                  Specialisation
+                </p>
+
+                <p className="mt-1 text-sm font-semibold leading-snug text-foreground">
+                  {specialty}
+                </p>
               </div>
             </div>
           </div>
-        ))}
-      </div>
-    </PageShell>
-  );
+
+          {/* COACH BIO */}
+          <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
+            {bio}
+          </p>
+
+          {/* COACH ENQUIRY */}
+          <div className="mt-auto pt-7">
+            <div className="mb-5 h-px w-full bg-border" />
+
+            <button
+              type="button"
+              onClick={openCoachingChat}
+              className="btn-firm w-full justify-center text-xs"
+              aria-label={`Ask about ${name} and the coaching staff`}
+            >
+              Contact Academy
+            </button>
+          </div>
+        </CathedralCard>
+      ),
+    )}
+  </div>
+
+  {/* DEVELOPMENT PHILOSOPHY */}
+  <section className="mt-20">
+    <CathedralCard className="text-center">
+      <span className="neu-circle mx-auto flex h-16 w-16 items-center justify-center text-accent">
+        <Dumbbell size={26} aria-hidden="true" />
+      </span>
+
+      <h2 className="engraved-title mt-5 text-xl uppercase">
+        More Than Training
+      </h2>
+
+      <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+        At Allen Premier Football Academy, coaching goes beyond
+        football drills. Our technical team develops discipline,
+        confidence, intelligence, physical conditioning and the
+        professional mentality required to succeed on and off the pitch.
+      </p>
+    </CathedralCard>
+  </section>
+</PageShell>
+
+
+);
 }

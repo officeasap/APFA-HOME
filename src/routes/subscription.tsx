@@ -1,96 +1,156 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
-import { Check } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { Check, ShieldCheck } from "lucide-react";
+
 import { CathedralCard, PageShell } from "@/components/cathedral";
+import { useAuth } from "@/hooks/useAuth";
 
-export const Route = createFileRoute("/subscription")({
-  head: () => ({
-    meta: [
-      { title: "Membership Plans — Allen Premier Football Academy" },
-      { name: "description", content: "Free, Premium and Elite membership plans for the Allen Premier Football Academy Education Hub." },
-      { property: "og:title", content: "Membership Plans — Allen Premier Football Academy" },
-      { property: "og:description", content: "Free, Premium and Elite membership plans for the Education Hub." },
-    ],
-  }),
-  component: Subscription,
-});
-
-const PLANS = [
-  { id: "FREE", name: "Free", price: "₦0", perks: ["Basic access to the Education Hub", "5 core subjects", "Screening registration"] },
-  { id: "PREMIUM", name: "Premium", price: "₦5,000/mo", perks: ["Full course library", "AI tutor support", "Quiz certificates", "Priority trial feedback"] },
-  { id: "ELITE", name: "Elite", price: "₦15,000/mo", perks: ["Everything in Premium", "1-on-1 coaching reviews", "European trial pathway", "Personal development plan"] },
+const ACCESS_PERKS = [
+  "Full Education Hub access",
+  "All available APFA subjects",
+  "All available APFA courses",
+  "All available APFA lessons",
+  "Access remains free",
+  "No recurring payment required",
 ];
 
-function Subscription() {
+export function Subscription() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const [busy, setBusy] = useState<string | null>(null);
 
-  const { data: current } = useQuery({
-    queryKey: ["subscription", user?.id],
-    enabled: !!user,
-    queryFn: async () => {
-      const { data } = await supabase.from("subscriptions").select("*").eq("user_id", user!.id).maybeSingle();
-      return data;
-    },
-  });
+  if (!user) {
+    return (
+      <PageShell
+        title="Education Access"
+        intro="Sign in to view your Allen Premier Football Academy education entitlement."
+      >
+        <CathedralCard className="mx-auto max-w-2xl">
+          <div className="grid gap-6 text-center">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full cathedral-press">
+              <ShieldCheck
+                size={32}
+                className="text-primary"
+              />
+            </div>
 
-  async function choose(plan: string) {
-    if (!user) {
-      toast.info("Sign in first to choose a plan.");
-      navigate({ to: "/auth" });
-      return;
-    }
-    setBusy(plan);
-    const { error } = await supabase.from("subscriptions").upsert(
-      { user_id: user.id, plan: plan as "FREE" | "PREMIUM" | "ELITE", status: "ACTIVE", start_date: new Date().toISOString() },
-      { onConflict: "user_id" },
+            <div>
+              <h2 className="engraved-title text-xl uppercase">
+                Member Access
+              </h2>
+
+              <p className="mt-3 text-sm text-muted-foreground">
+                Your Education Hub access is tied to your APFA
+                membership. Sign in to continue.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              className="btn-firm w-full"
+              onClick={() => navigate("/auth")}
+            >
+              Sign In
+            </button>
+          </div>
+        </CathedralCard>
+      </PageShell>
     );
-    setBusy(null);
-    if (error) {
-      toast.error("Could not update your plan. Please try again.");
-      return;
-    }
-    toast.success(`Plan updated to ${plan}.`);
-    queryClient.invalidateQueries({ queryKey: ["subscription", user.id] });
   }
 
   return (
-    <PageShell title="Membership Plans" intro="Every plan includes the Education Hub. Upgrade to unlock the full academy experience.">
-      <div className="grid gap-10 md:grid-cols-3">
-        {PLANS.map((p) => {
-          const active = current?.plan === p.id;
-          return (
-            <CathedralCard key={p.id} className="flex flex-col">
-              <h2 className="engraved-title text-xl uppercase">{p.name}</h2>
-              <p className="display mt-2 text-3xl text-primary">{p.price}</p>
-              <div className="my-4 h-px w-full bg-border" />
-              <ul className="mb-8 grid gap-2">
-                {p.perks.map((perk) => (
-                  <li key={perk} className="flex items-center gap-2 text-sm">
-                    <Check size={16} className="shrink-0 text-primary" />
-                    {perk}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-auto">
-                <button
-                  type="button"
-                  className="btn-firm w-full text-xs"
-                  disabled={busy !== null || active}
-                  onClick={() => choose(p.id)}
-                >
-                  {active ? "Current Plan" : busy === p.id ? "Updating…" : "Subscribe Now"}
-                </button>
+    <PageShell
+      title="Education Access"
+      intro="Your Allen Premier Football Academy Education Hub access is active."
+    >
+      <div className="mx-auto grid max-w-4xl gap-8">
+        <CathedralCard>
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-4">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full cathedral-press">
+                <ShieldCheck
+                  size={28}
+                  className="text-primary"
+                />
               </div>
-            </CathedralCard>
-          );
-        })}
+
+              <div>
+                <p className="text-xs font-bold uppercase tracking-widest text-accent">
+                  Education entitlement
+                </p>
+
+                <h2 className="engraved-title mt-1 text-2xl uppercase">
+                  Active
+                </h2>
+
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {user.fullName
+                    ? `${user.fullName}, your`
+                    : "Your"}{" "}
+                  APFA Education Hub access is active.
+                </p>
+              </div>
+            </div>
+
+            <div className="display text-3xl text-primary">
+              FREE
+            </div>
+          </div>
+        </CathedralCard>
+
+        <CathedralCard>
+          <div className="grid gap-6">
+            <div>
+              <h2 className="engraved-title text-xl uppercase">
+                Your Access
+              </h2>
+
+              <p className="mt-2 text-sm text-muted-foreground">
+                Every valid APFA registration receives full
+                educational access without a subscription fee.
+              </p>
+            </div>
+
+            <ul className="grid gap-3">
+              {ACCESS_PERKS.map((perk) => (
+                <li
+                  key={perk}
+                  className="flex items-center gap-3 text-sm"
+                >
+                  <Check
+                    size={18}
+                    className="shrink-0 text-primary"
+                  />
+
+                  <span>{perk}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </CathedralCard>
+
+        <CathedralCard>
+          <div className="grid gap-4">
+            <h2 className="engraved-title text-xl uppercase">
+              Cathedral Entitlement Law
+            </h2>
+
+            <p className="text-sm leading-6 text-muted-foreground">
+              Your subscription record exists to establish
+              educational entitlement. It is not a payment,
+              purchase, or premium-tier system.
+            </p>
+
+            <p className="text-sm leading-6 text-muted-foreground">
+              QR confirmation is used for verification and
+              confirmation. It does not replace authentication
+              and does not independently grant access.
+            </p>
+
+            <p className="text-sm leading-6 text-muted-foreground">
+              Your authenticated APFA account remains the
+              identity authority for your educational access.
+            </p>
+          </div>
+        </CathedralCard>
       </div>
     </PageShell>
   );

@@ -1,0 +1,56 @@
+.apfa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  border: 0;
+  border-radius: var(--apfa-radius);
+  padding: 0.75rem 1.5rem;
+  background: var(--apfa-card);
+  color: var(--apfa-text-on-card);
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: var(--apfa-rim-light), var(--apfa-elev-2);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease;
+  cursor: pointer;
+}
+
+.apfa-btn:hover {
+  transform: translateY(-2px);
+  background: var(--apfa-card-hover);
+  box-shadow: var(--apfa-rim-light), var(--apfa-elev-3);
+}
+
+.apfa-btn:active {
+  transform: translateY(0);
+  box-shadow: var(--apfa-inset-soft), var(--apfa-elev-1);
+}
+
+.apfa-btn--donate {
+  background: var(--apfa-donation);
+  color: var(--apfa-text-on-card);
+}
+
+.apfa-btn--donate:hover {
+  background: var(--apfa-donation-hover);
+}
+
+.apfa-btn--ghost {
+  background: transparent;
+  color: var(--apfa-text-on-card);
+  box-shadow: var(--apfa-rim-light);
+}
+
+.apfa-btn--light {
+  background: var(--apfa-bg);
+  color: var(--apfa-text-on-bg);
+  box-shadow:
+    inset 0 1px 0 rgba(0, 0, 0, 0.20),
+    var(--apfa-elev-2);
+}

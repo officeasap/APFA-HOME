@@ -1,0 +1,919 @@
+.apfa-dashboard {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  background: var(--apfa-bg);
+  color: var(--apfa-text-on-bg);
+}
+
+.apfa-sidebar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  padding: 2rem 1rem;
+  background: var(--apfa-card);
+  color: var(--apfa-text-on-card);
+  box-shadow:
+    var(--apfa-rim-light),
+    var(--apfa-elev-4);
+}
+
+.apfa-sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+}
+
+.apfa-sidebar__mark {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  place-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  background: var(--apfa-card);
+  color: var(--apfa-success);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  box-shadow: var(--apfa-inset-deep);
+}
+
+.apfa-sidebar__name {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.apfa-sidebar__tagline {
+  margin: 0.2rem 0 0;
+  color: rgba(240, 237, 232, 0.52);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.apfa-sidebar__nav {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 2.5rem;
+}
+
+.apfa-sidebar__item {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.8rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 0 0.9rem;
+  color: rgba(240, 237, 232, 0.62);
+  font-size: 0.83rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition:
+    transform 160ms ease,
+    color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.apfa-sidebar__item:hover {
+  color: var(--apfa-text-on-card);
+  background: var(--apfa-card-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--apfa-elev-1);
+}
+
+.apfa-sidebar__item:active {
+  transform: translateY(1px);
+  box-shadow: var(--apfa-inset-deep);
+}
+
+.apfa-sidebar__item.is-active {
+  color: var(--apfa-text-on-card);
+  background: var(--apfa-card-hover);
+  border-color: rgba(0, 0, 0, 0.06);
+  box-shadow:
+    var(--apfa-rim-light),
+    var(--apfa-inset-deep);
+}
+
+.apfa-sidebar__item.is-active svg {
+  color: var(--apfa-success);
+}
+
+.apfa-sidebar__bottom {
+  margin-top: auto;
+  padding: 1rem 0.5rem 0;
+}
+
+.apfa-sidebar__principle {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding-top: 1.2rem;
+  color: rgba(240, 237, 232, 0.58);
+}
+
+.apfa-sidebar__principle svg {
+  flex: 0 0 auto;
+  color: var(--apfa-success);
+}
+
+.apfa-sidebar__principle strong,
+.apfa-sidebar__principle span {
+  display: block;
+}
+
+.apfa-sidebar__principle strong {
+  color: var(--apfa-text-on-card);
+  font-size: 0.75rem;
+}
+
+.apfa-sidebar__principle span {
+  margin-top: 0.2rem;
+  font-size: 0.68rem;
+}
+
+.apfa-dashboard__main {
+  min-width: 0;
+}
+
+.apfa-topbar {
+  display: flex;
+  min-height: 82px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(26, 26, 24, 0.08);
+  padding: 1rem clamp(1.25rem, 4vw, 3rem);
+  background: var(--apfa-bg);
+}
+
+.apfa-topbar__brand {
+  display: none;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.apfa-topbar__mark {
+  width: 34px;
+  height: 34px;
+}
+
+.apfa-topbar__name,
+.apfa-topbar__sub,
+.apfa-topbar__welcome,
+.apfa-topbar__identity {
+  margin: 0;
+}
+
+.apfa-topbar__name {
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+.apfa-topbar__sub {
+  margin-top: 0.1rem;
+  color: var(--apfa-text-muted);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.apfa-topbar__right {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.85rem;
+}
+
+.apfa-topbar__notification,
+.apfa-topbar__avatar {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  place-items: center;
+  border: 0;
+  border-radius: 10px;
+  background: var(--apfa-bg);
+  color: var(--apfa-text-on-bg);
+  box-shadow: var(--apfa-elev-2);
+}
+
+.apfa-topbar__notification {
+  cursor: pointer;
+}
+
+.apfa-topbar__notification:hover,
+.apfa-topbar__avatar:hover {
+  box-shadow: var(--apfa-elev-3);
+  transform: translateY(-1px);
+}
+
+.apfa-topbar__notification:active {
+  transform: translateY(1px);
+  box-shadow: var(--apfa-inset-deep);
+}
+
+.apfa-topbar__welcome {
+  display: grid;
+  margin-left: auto;
+  text-align: right;
+}
+
+.apfa-topbar__welcome span {
+  color: var(--apfa-text-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.apfa-topbar__welcome strong {
+  margin-top: 0.12rem;
+  font-size: 0.86rem;
+}
+
+.apfa-topbar__avatar {
+  background: var(--apfa-card);
+  color: var(--apfa-success);
+  font-size: 0.85rem;
+  font-weight: 900;
+}
+
+.apfa-topbar__identity {
+  display: none;
+}
+
+.apfa-dashboard__content {
+  width: min(100%, 1440px);
+  margin-inline: auto;
+  padding: clamp(1.25rem, 4vw, 3rem);
+}
+
+.apfa-dashboard__hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.55fr);
+  min-height: 330px;
+  overflow: hidden;
+  border-radius: var(--apfa-radius-lg);
+  background: var(--apfa-card);
+  color: var(--apfa-text-on-card);
+  box-shadow:
+    var(--apfa-rim-light),
+    var(--apfa-elev-4);
+}
+
+.apfa-dashboard__hero::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 3px;
+  height: 76%;
+  background: var(--apfa-accent-line);
+  content: "";
+}
+
+.apfa-dashboard__hero-copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(2rem, 5vw, 4.5rem);
+}
+
+.apfa-dashboard__hero-title {
+  max-width: 760px;
+  margin: 0.75rem 0 0;
+  font-family: var(--font-editorial);
+  font-size: clamp(3rem, 7vw, 6.4rem);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+}
+
+.apfa-dashboard__hero-text {
+  max-width: 610px;
+  margin: 1.35rem 0 1.75rem;
+  color: rgba(240, 237, 232, 0.62);
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+.apfa-dashboard__hero-stats {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-content: center;
+  gap: 0.9rem;
+  padding: 2rem;
+}
+
+.apfa-dashboard__hero-stat {
+  display: flex;
+  min-height: 82px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  background: var(--apfa-card-hover);
+  box-shadow:
+    var(--apfa-rim-light),
+    var(--apfa-inset-soft);
+}
+
+.apfa-dashboard__hero-stat strong {
+  color: var(--apfa-success);
+  font-size: 1.35rem;
+  font-weight: 900;
+}
+
+.apfa-dashboard__hero-stat span {
+  color: rgba(240, 237, 232, 0.58);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.apfa-dashboard__section {
+  margin-top: 3rem;
+}
+
+.apfa-dashboard__section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+}
+
+.apfa-dashboard__section-heading h2 {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-editorial);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+
+.apfa-dashboard__course-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.apfa-dashboard__course-card {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+}
+
+.apfa-dashboard__course-card--1 {
+  border-top: 3px solid var(--apfa-success);
+}
+
+.apfa-dashboard__course-card--2 {
+  border-top: 3px solid var(--apfa-accent-line);
+}
+
+.apfa-dashboard__course-card--3 {
+  border-top: 3px solid var(--apfa-donation);
+}
+
+.apfa-dashboard__course-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1.8rem;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--apfa-card-hover);
+  color: var(--apfa-success);
+  box-shadow: var(--apfa-inset-deep);
+}
+
+.apfa-dashboard__course-card h3 {
+  margin: 0.45rem 0 0;
+  color: var(--apfa-text-on-card);
+  font-family: var(--font-editorial);
+  font-size: 1.8rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.apfa-dashboard__course-description {
+  margin: 0.9rem 0 0;
+  color: rgba(240, 237, 232, 0.58);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.apfa-dashboard__course-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+
+.apfa-dashboard__course-footer > span {
+  color: rgba(240, 237, 232, 0.46);
+  font-size: 0.63rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.apfa-dashboard__icon-link {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--apfa-card-hover);
+  color: var(--apfa-text-on-card);
+  box-shadow:
+    var(--apfa-rim-light),
+    var(--apfa-elev-1);
+  text-decoration: none;
+}
+
+.apfa-dashboard__icon-link:hover {
+  color: var(--apfa-success);
+  transform: translateY(-2px);
+  box-shadow: var(--apfa-elev-2);
+}
+
+.apfa-dashboard__icon-link:active {
+  transform: translateY(1px);
+  box-shadow: var(--apfa-inset-deep);
+}
+
+.apfa-dashboard__lower {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(290px, 0.65fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.apfa-dashboard__lessons {
+  min-width: 0;
+}
+
+.apfa-dashboard__rail {
+  display: grid;
+  gap: 1.25rem;
+  align-content: start;
+}
+
+.apfa-dashboard__rail-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.apfa-dashboard__rail-heading h3 {
+  margin: 0.35rem 0 0;
+  color: var(--apfa-text-on-card);
+  font-family: var(--font-editorial);
+  font-size: 1.45rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.apfa-dashboard__rail-text {
+  margin: 1.25rem 0;
+  color: rgba(240, 237, 232, 0.58);
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+
+.apfa-dashboard__quick-links {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.apfa-dashboard__quick-links a {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 44px;
+  border-radius: 10px;
+  padding: 0 0.75rem;
+  color: var(--apfa-text-on-card);
+  background: var(--apfa-card-hover);
+  box-shadow: var(--apfa-inset-soft);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.apfa-dashboard__quick-links a:hover {
+  color: var(--apfa-success);
+  box-shadow: var(--apfa-elev-1);
+}
+
+.apfa-dashboard__principle {
+  margin: 0.8rem 0 0;
+  color: var(--apfa-text-on-bg);
+  font-family: var(--font-editorial);
+  font-size: 1.55rem;
+  line-height: 1.05;
+}
+
+.apfa-dashboard__empty {
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: var(--apfa-text-muted);
+  text-align: center;
+}
+
+.apfa-dashboard__empty > div {
+  display: grid;
+  gap: 0.35rem;
+  text-align: left;
+}
+
+.apfa-dashboard__empty strong {
+  color: var(--apfa-text-on-bg);
+  font-size: 0.86rem;
+}
+
+.apfa-dashboard__empty span {
+  color: var(--apfa-text-muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 1100px) {
+  .apfa-dashboard {
+    grid-template-columns: 215px minmax(0, 1fr);
+  }
+
+  .apfa-dashboard__hero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .apfa-dashboard__hero-stats {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 0 2rem 2rem;
+  }
+
+  .apfa-dashboard__lower {
+    grid-template-columns: 1fr;
+  }
+
+  .apfa-dashboard__rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 800px) {
+  .apfa-dashboard {
+    display: block;
+  }
+
+  .apfa-sidebar {
+    position: static;
+    min-height: auto;
+    padding: 1rem;
+  }
+
+  .apfa-sidebar__nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 1rem;
+  }
+
+  .apfa-sidebar__bottom {
+    display: none;
+  }
+
+  .apfa-sidebar__item {
+    background: var(--apfa-card-hover);
+    box-shadow: var(--apfa-inset-soft);
+  }
+
+  .apfa-topbar__brand {
+    display: flex;
+  }
+
+  .apfa-topbar__welcome {
+    display: none;
+  }
+
+  .apfa-dashboard__course-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .apfa-dashboard__hero-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .apfa-dashboard__rail {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .apfa-sidebar__nav {
+    grid-template-columns: 1fr;
+  }
+
+  .apfa-topbar {
+    padding-inline: 1rem;
+  }
+
+  .apfa-topbar__identity {
+    display: none;
+  }
+
+  .apfa-dashboard__content {
+    padding: 1rem;
+  }
+
+  .apfa-dashboard__hero-copy {
+    padding: 2rem 1.5rem;
+  }
+
+  .apfa-dashboard__hero-stats {
+    padding: 0 1.5rem 1.5rem;
+  }
+
+  .apfa-dashboard__hero-title {
+    font-size: 3.4rem;
+  }
+}
+
+/* ============================================================
+   APFA DASHBOARD — CANONICAL SHELL GEOMETRY REPAIR
+   JSX structure:
+   header
+   sidebar
+   main
+   right rail
+   ============================================================ */
+
+.apfa-dashboard {
+  display: grid !important;
+  grid-template-columns: 250px minmax(0, 1fr) 300px !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  min-height: 100vh !important;
+  gap: 0 !important;
+  overflow-x: clip !important;
+  box-sizing: border-box !important;
+}
+
+/* Header spans the complete dashboard width. */
+.apfa-dashboard-header {
+  grid-column: 1 / -1 !important;
+  grid-row: 1 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Left navigation. */
+.apfa-dashboard-sidebar {
+  grid-column: 1 !important;
+  grid-row: 2 !important;
+  width: 250px !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Main learning/dashboard area. */
+.apfa-dashboard-main {
+  grid-column: 2 !important;
+  grid-row: 2 !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  overflow-x: clip !important;
+}
+
+/* Right rail. */
+.apfa-dashboard-right-rail {
+  grid-column: 3 !important;
+  grid-row: 2 !important;
+  width: 300px !important;
+  max-width: 300px !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Main dashboard sections must fill the available center column. */
+.apfa-dashboard-main > * {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* The three primary cards must be actual equal-width cards. */
+.apfa-dashboard-main > section.grid {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+/* Never let a card's content force the grid track narrower. */
+.apfa-dashboard-main .apfa-card,
+.apfa-dashboard-main .card,
+.apfa-dashboard-main [class*="card"] {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* All descendants of the shell are shrink-safe. */
+.apfa-dashboard *,
+.apfa-dashboard *::before,
+.apfa-dashboard *::after {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 1200px) {
+  .apfa-dashboard {
+    grid-template-columns: 220px minmax(0, 1fr) !important;
+  }
+
+  .apfa-dashboard-header {
+    grid-column: 1 / -1 !important;
+  }
+
+  .apfa-dashboard-sidebar {
+    grid-column: 1 !important;
+    width: 220px !important;
+  }
+
+  .apfa-dashboard-main {
+    grid-column: 2 !important;
+  }
+
+  .apfa-dashboard-right-rail {
+    display: none !important;
+  }
+
+  .apfa-dashboard-main > section.grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .apfa-dashboard {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .apfa-dashboard-header,
+  .apfa-dashboard-sidebar,
+  .apfa-dashboard-main {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .apfa-dashboard-sidebar {
+    display: none !important;
+  }
+
+  .apfa-dashboard-right-rail {
+    display: none !important;
+  }
+
+  .apfa-dashboard-main > section.grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .apfa-dashboard-main > section.grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+
+/* ============================================================
+   APFA DASHBOARD — FINAL VIEWPORT FIT
+   ============================================================ */
+
+.apfa-dashboard {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  overflow-x: hidden !important;
+}
+
+.apfa-dashboard-main {
+  width: auto !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  overflow-x: hidden !important;
+}
+
+.apfa-dashboard-main > * {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+.apfa-dashboard-main > section.grid {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  min-width: 0 !important;
+}
+
+.apfa-dashboard-main > section.grid > * {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+@media (min-width: 1201px) {
+  .apfa-dashboard {
+    grid-template-columns:
+      minmax(210px, 250px)
+      minmax(0, 1fr)
+      minmax(260px, 300px) !important;
+  }
+
+  .apfa-dashboard-sidebar {
+    width: 100% !important;
+    max-width: 250px !important;
+  }
+
+  .apfa-dashboard-right-rail {
+    width: 100% !important;
+    max-width: 300px !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .apfa-dashboard {
+    grid-template-columns:
+      minmax(190px, 220px)
+      minmax(0, 1fr) !important;
+  }
+
+  .apfa-dashboard-sidebar {
+    width: 100% !important;
+    max-width: 220px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .apfa-dashboard {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .apfa-dashboard-main {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .apfa-dashboard-main > section.grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .apfa-dashboard-main > section.grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+

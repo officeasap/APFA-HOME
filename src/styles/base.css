@@ -1,0 +1,175 @@
+/* =========================================================
+ * APFA — GLOBAL SMUDGEFIRE FOUNDATION
+ *
+ * This is the global visual substrate of the Cathedral.
+ * Every route, component, modal, form and state lives here.
+ * ========================================================= */
+
+:root {
+  --apfa-bg: #d9d0c9;
+  --apfa-card: #2f2e2c;
+  --apfa-card-deep: #262523;
+
+  --apfa-primary: #6bc444;
+
+  --apfa-text-on-bg: #082408;
+  --apfa-text-on-card: #fbedec;
+
+  --apfa-muted: #365036;
+  --apfa-muted-on-card: rgba(251, 237, 236, 0.64);
+
+  --apfa-focus: #62a8c7;
+
+  --apfa-radius: 8px;
+  --apfa-radius-lg: 12px;
+  --apfa-radius-xl: 16px;
+  --apfa-radius-pill: 9999px;
+
+  --apfa-elev-2:
+    0 8px 16px rgba(0, 0, 0, 0.22),
+    0 3px 6px rgba(0, 0, 0, 0.16);
+
+  --apfa-elev-3:
+    0 12px 24px rgba(0, 0, 0, 0.28),
+    0 4px 8px rgba(0, 0, 0, 0.18);
+
+  --apfa-elev-4:
+    0 18px 32px rgba(0, 0, 0, 0.34),
+    0 6px 12px rgba(0, 0, 0, 0.22);
+
+  --apfa-inset-deep:
+    inset 0 3px 6px rgba(0, 0, 0, 0.35);
+
+  --apfa-input-ink: #fbedec;
+  --apfa-placeholder: rgba(251, 237, 236, 0.64);
+
+  /* Compatibility aliases for existing Tailwind/component code. */
+  --background: var(--apfa-bg);
+  --foreground: var(--apfa-text-on-bg);
+  --card: var(--apfa-card);
+  --card-foreground: var(--apfa-text-on-card);
+  --primary: var(--apfa-primary);
+  --primary-foreground: var(--apfa-text-on-bg);
+  --muted-foreground: var(--apfa-muted);
+  --ring: var(--apfa-focus);
+}
+
+html,
+body,
+#root,
+#app {
+  min-height: 100%;
+}
+
+html {
+  background: var(--apfa-bg);
+  -webkit-text-size-adjust: 100%;
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  width: 100%;
+  overflow-x: clip;
+  background: var(--apfa-bg);
+  background-image: none;
+  color: var(--apfa-text-on-bg);
+  font-family: "Barlow", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/*
+ * Global substrate law.
+ * Page containers remain transparent unless they are deliberately
+ * raised surfaces governed by the card law.
+ */
+main,
+section,
+article,
+.page,
+.page-shell,
+.page-wrapper,
+[data-route],
+[data-page] {
+  background: transparent;
+  color: inherit;
+}
+
+::selection {
+  background: var(--apfa-primary);
+  color: var(--apfa-text-on-bg);
+}
+
+::-moz-selection {
+  background: var(--apfa-primary);
+  color: var(--apfa-text-on-bg);
+}
+
+*:focus-visible {
+  outline: 3px solid var(--apfa-focus) !important;
+  outline-offset: 4px !important;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--apfa-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--apfa-card-deep);
+  border-radius: var(--apfa-radius-pill);
+  border: 3px solid var(--apfa-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--apfa-card);
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--apfa-card-deep) var(--apfa-bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}

@@ -1,17 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { CathedralCard, FootballMark, PageShell } from "@/components/cathedral";
 
-export const Route = createFileRoute("/training")({
-  head: () => ({
-    meta: [
-      { title: "Training — Allen Premier Football Academy" },
-      { name: "description", content: "Weekly training schedule, methodology and facilities at Allen Premier Football Academy, Benin City." },
-      { property: "og:title", content: "Training — Allen Premier Football Academy" },
-      { property: "og:description", content: "Weekly training schedule, methodology and facilities in Benin City." },
-    ],
-  }),
-  component: Training,
-});
+
 
 const SCHEDULE = [
   { day: "Monday", body: "Technical circuit — ball mastery and first touch" },
@@ -22,9 +12,9 @@ const SCHEDULE = [
   { day: "Saturday", body: "Match day — competitive fixtures and analysis" },
 ];
 
-function Training() {
+export function Training() {
   return (
-    <PageShell title="Training" intro="Six days a week, 8:00 a.m. to 12 noon, on grass — never on guesswork.">
+    <PageShell title="Training" intro="Six days a week, 8:00 a.m. to 12 noon — disciplined training, never guesswork.">
       <div className="grid gap-10 md:grid-cols-3">
         {SCHEDULE.map((s) => (
           <CathedralCard key={s.day} className="flex flex-col">

@@ -1,17 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { CathedralCard, FootballMark, PageShell } from "@/components/cathedral";
 
-export const Route = createFileRoute("/programs")({
-  head: () => ({
-    meta: [
-      { title: "Programs — Allen Premier Football Academy" },
-      { name: "description", content: "Age-group programs, elite development squads and goalkeeper school at Allen Premier Football Academy." },
-      { property: "og:title", content: "Programs — Allen Premier Football Academy" },
-      { property: "og:description", content: "Age-group programs, elite development squads and goalkeeper school." },
-    ],
-  }),
-  component: Programs,
-});
+
 
 const PROGRAMS = [
   { title: "Foundation (U9 – U12)", body: "Ball mastery, coordination and love for the game through structured play." },
@@ -22,7 +12,7 @@ const PROGRAMS = [
   { title: "Scholar Athletes", body: "Free Education Hub access alongside daily training for every subscribed youth." },
 ];
 
-function Programs() {
+export function Programs() {
   return (
     <PageShell title="Programs" intro="Structured pathways from first touch to professional trial.">
       <div className="grid gap-10 md:grid-cols-3">

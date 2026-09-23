@@ -1,19 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+
 import { Play } from "lucide-react";
 import { CathedralCard, FootballMark, PageShell } from "@/components/cathedral";
-import grassStrip from "@/assets/grass-strip.jpg";
 
-export const Route = createFileRoute("/events")({
-  head: () => ({
-    meta: [
-      { title: "Video Events — Allen Premier Football Academy" },
-      { name: "description", content: "Tournament highlights, screening footage and academy event videos from Allen Premier Football Academy." },
-      { property: "og:title", content: "Video Events — Allen Premier Football Academy" },
-      { property: "og:description", content: "Tournament highlights, screening footage and academy events." },
-    ],
-  }),
-  component: Events,
-});
+
 
 const EVENTS = [
   { title: "Screening Competition Highlights", date: "September 2026", body: "Best moments from the Under 15–17 trials at NIPOST, Egor." },
@@ -24,15 +13,18 @@ const EVENTS = [
   { title: "Talent Showcase Friendly", date: "June 2025", body: "Scout-attended friendly featuring our Elite Squad graduates." },
 ];
 
-function Events() {
+export function Events() {
   return (
-    <PageShell title="Video Events" intro="Every tournament, trial and celebration — captured on the grass.">
+    <PageShell title="Video Events" intro="Every tournament, trial and celebration — captured through the APFA experience.">
       <div className="grid gap-10 md:grid-cols-3">
         {EVENTS.map((e) => (
           <CathedralCard key={e.title} className="flex flex-col">
             <div
               className="mb-4 flex h-40 items-center justify-center rounded-[16px_16px_4px_4px]"
-              style={{ backgroundImage: `url(${grassStrip})`, backgroundSize: "cover" }}
+              style={{
+                background: "var(--apfa-card-deep)",
+                boxShadow: "var(--apfa-inset-deep)",
+              }}
             >
               <span className="neu-circle flex h-14 w-14 items-center justify-center text-accent">
                 <Play size={22} />
