@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Heart } from "lucide-react";
 
@@ -28,7 +29,7 @@ export function Donate() {
             Support Allen Premier
           </p>
 
-          <h1 className="display mt-2 text-4xl uppercase leading-[0.95] text-accent sm:text-5xl">
+          <h1 className="display mt-2 text-4xl uppercase leading-[0.95] text-foreground sm:text-5xl">
             Help Build the Future
           </h1>
 
@@ -67,3 +68,4 @@ export function Donate() {
     </main>
   );
 }
+

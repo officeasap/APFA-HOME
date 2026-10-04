@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
@@ -304,11 +303,19 @@ export function Home() {
 
                 <div className="mb-4 flex items-center gap-3">
 
-                  <span className="neu-circle flex h-12 w-12 items-center justify-center text-accent">
-
-                    <Icon size={22} />
-
-                  </span>
+                  <div
+                    className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[12px_12px_4px_4px] border-2 border-[#008000] bg-[#292824]"
+                    style={{
+                      boxShadow:
+                        "7px 8px 15px rgba(0,0,0,0.30), inset 2px 2px 4px rgba(255,255,255,0.04), inset -2px -2px 4px rgba(0,0,0,0.32)",
+                    }}
+                  >
+                    <Icon
+                      size={25}
+                      strokeWidth={2.4}
+                      className="text-[#008000]"
+                    />
+                  </div>
 
                   <h3 className="engraved-title text-xl uppercase">
 
@@ -328,7 +335,15 @@ export function Home() {
 
                 <div className="mt-auto flex items-end justify-between">
 
-                  <FootballMark className="h-12 w-12" />
+                  <div
+                    className="flex h-11 w-11 items-center justify-center rounded-[10px_10px_3px_3px] border-2 border-[#cc7547] bg-[#292824]"
+                    style={{
+                      boxShadow:
+                        "6px 7px 13px rgba(0,0,0,0.30), inset 2px 2px 4px rgba(255,255,255,0.05), inset -2px -2px 4px rgba(0,0,0,0.32)",
+                    }}
+                  >
+                    <FootballMark className="h-7 w-7 text-[#cc7547]" />
+                  </div>
 
                   <Link
                     to="/programs"
@@ -426,7 +441,15 @@ export function Home() {
 
                 <div className="mt-auto flex items-end justify-between pt-6">
 
-                  <FootballMark className="h-10 w-10" />
+                  <div
+                    className="flex h-10 w-10 items-center justify-center rounded-[9px_9px_3px_3px] border-2 border-[#008000] bg-[#292824]"
+                    style={{
+                      boxShadow:
+                        "5px 6px 12px rgba(0,0,0,0.30), inset 2px 2px 4px rgba(255,255,255,0.04), inset -2px -2px 4px rgba(0,0,0,0.32)",
+                    }}
+                  >
+                    <FootballMark className="h-6 w-6 text-[#008000]" />
+                  </div>
 
                   <Link
                     to="/coaches"
@@ -467,7 +490,7 @@ export function Home() {
               <div className="flex items-start gap-3">
 
                 <CalendarDays
-                  className="mt-0.5 text-primary"
+                  className="mt-0.5 shrink-0 text-primary"
                   size={20}
                 />
 
@@ -489,7 +512,7 @@ export function Home() {
               <div className="flex items-start gap-3">
 
                 <Clock
-                  className="mt-0.5 text-primary"
+                  className="mt-0.5 shrink-0 text-primary"
                   size={20}
                 />
 
@@ -511,7 +534,7 @@ export function Home() {
               <div className="flex items-start gap-3">
 
                 <MapPin
-                  className="mt-0.5 text-primary"
+                  className="mt-0.5 shrink-0 text-primary"
                   size={20}
                 />
 
@@ -686,11 +709,19 @@ export function Home() {
                   }}
                 >
 
-                  <span className="neu-circle flex h-14 w-14 items-center justify-center text-accent">
-
-                    <Play size={22} />
-
-                  </span>
+                  <div
+                    className="flex h-16 w-16 items-center justify-center rounded-[12px_12px_4px_4px] border-2 border-[#cc7547] bg-[#292824]"
+                    style={{
+                      boxShadow:
+                        "8px 9px 17px rgba(0,0,0,0.38), inset 2px 2px 4px rgba(255,255,255,0.06), inset -2px -2px 4px rgba(0,0,0,0.32)",
+                    }}
+                  >
+                    <Play
+                      size={25}
+                      strokeWidth={2.4}
+                      className="ml-0.5 text-[#cc7547]"
+                    />
+                  </div>
 
                 </div>
 
@@ -718,7 +749,15 @@ export function Home() {
 
                 <div className="mt-auto flex items-end justify-between">
 
-                  <FootballMark className="h-10 w-10" />
+                  <div
+                    className="flex h-10 w-10 items-center justify-center rounded-[9px_9px_3px_3px] border-2 border-[#008000] bg-[#292824]"
+                    style={{
+                      boxShadow:
+                        "5px 6px 12px rgba(0,0,0,0.30), inset 2px 2px 4px rgba(255,255,255,0.04), inset -2px -2px 4px rgba(0,0,0,0.32)",
+                    }}
+                  >
+                    <FootballMark className="h-6 w-6 text-[#008000]" />
+                  </div>
 
                   <Link
                     to="/events"
@@ -741,4 +780,3 @@ export function Home() {
     </main>
   );
 }
-

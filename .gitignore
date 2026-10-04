@@ -1,3 +1,8 @@
+# Initialize Git if not already done
+git init
+
+# Add a .gitignore file (based on your logs snippet)
+echo "
 # Logs
 logs
 *.log
@@ -30,3 +35,20 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.env
+" > .gitignore
+
+# Stage all files
+git add .
+
+# Commit changes
+git commit -m "Initial commit with .gitignore and project setup"
+
+# Add remote repository
+git remote add origin https://github.com/officeasap/APFA-1.git
+
+# Push to GitHub (main branch)
+git push -u origin main
+.env
+
+.vercel
