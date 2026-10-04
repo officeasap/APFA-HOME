@@ -113,7 +113,7 @@ const API_BASE_URL = (
 ).replace(/\/+$/, "");
 
 const SUPABASE_FUNCTION_URL =
-  `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/apfa-auth`;
+  `${import.meta.env["VITE_SUPABASE_URL"]}/functions/v1/apfa-auth`;
 
 const SESSION_TOKEN_KEY = "apfa_session_token";
 
@@ -127,7 +127,6 @@ export class ApiError extends Error {
     code: string | null = null,
   ) {
     super(message);
-
     this.name = "ApiError";
     this.status = status;
     this.code = code;
@@ -171,6 +170,7 @@ async function request<T>(
   options: RequestInit = {},
 ): Promise<T> {
   const token = getStoredSessionToken();
+
   const headers = new Headers(options.headers);
 
   if (options.body && !headers.has("content-type")) {
@@ -214,9 +214,10 @@ async function authRequest<T>(
   body?: Record<string, unknown>,
 ): Promise<T> {
   const token = getStoredSessionToken();
+
   const headers = new Headers({
     "content-type": "application/json",
-    apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+    apikey: import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"],
   });
 
   if (token) {
@@ -242,7 +243,8 @@ async function authRequest<T>(
     }
 
     throw new ApiError(
-      payload.error?.message ?? "The authentication request could not be completed.",
+      payload.error?.message ??
+        "The authentication request could not be completed.",
       response.status,
       payload.error?.code ?? null,
     );
@@ -338,7 +340,9 @@ export async function completeLesson(
     `/api/education/lessons/${encodeURIComponent(lessonId)}/progress`,
     {
       method: "POST",
-      body: JSON.stringify({}),
+      body: JSON.stringify({
+        completed: true,
+      }),
     },
   );
 }
