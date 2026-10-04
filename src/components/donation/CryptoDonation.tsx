@@ -1,161 +1,70 @@
 import { useEffect, useMemo, useState } from "react";
+import QRCode from "qrcode";
+
+import { supabase } from "@/lib/supabase";
 
 import {
-  listCryptoDonationWallets,
-  type DonationCryptoWallet,
-} from "@/lib/api";
+  listActiveDonationWallets,
+  type DonationWallet,
+} from "@/lib/supabaseDonations";
 
-import tronQr from "@/assets/crypto/tron.jpg";
-import solanaQr from "@/assets/crypto/solana.jpg";
-import ethereumQr from "@/assets/crypto/etherum.jpg";
-import bnbSmartChainQr from "@/assets/crypto/bnb-smart-chain.jpg";
-import bitcoinQr from "@/assets/crypto/bitcoin.jpg";
-import arbitrumQr from "@/assets/crypto/arbitrum.jpg";
-
-type DisplayWallet = DonationCryptoWallet & {
+type DisplayWallet = DonationWallet & {
   qrImage: string;
 };
 
 const PRESET_AMOUNTS = ["1", "5", "10"];
 
-function normalize(value: string): string {
-  return value.trim().toLowerCase().replace(/[\s_-]+/g, "");
+async function generateWalletQr(address: string): Promise<string> {
+  return QRCode.toDataURL(address.trim(), {
+    errorCorrectionLevel: "M",
+    margin: 1,
+    width: 360,
+  });
 }
 
-function getWalletQrImage(wallet: DonationCryptoWallet): string {
-  const candidates: string[] = [
-    wallet.id,
-    wallet.asset,
-    wallet.network,
-    wallet.standard,
-  ];
-
-  for (const candidate of candidates) {
-    const normalized = normalize(candidate);
-
-    if (normalized.includes("bitcoin") || normalized === "btc") {
-      return bitcoinQr;
-    }
-
-    if (normalized.includes("solana") || normalized === "sol") {
-      return solanaQr;
-    }
-
-    if (
-      normalized.includes("tron") ||
-      normalized === "trx" ||
-      normalized.includes("trc20")
-    ) {
-      return tronQr;
-    }
-
-    if (
-      normalized.includes("ethereum") ||
-      normalized === "eth" ||
-      normalized.includes("erc20")
-    ) {
-      return ethereumQr;
-    }
-
-    if (
-      normalized.includes("bnb") ||
-      normalized.includes("smartchain") ||
-      normalized.includes("bep20")
-    ) {
-      return bnbSmartChainQr;
-    }
-
-    if (normalized.includes("arbitrum") || normalized === "arb") {
-      return arbitrumQr;
-    }
-  }
-
-  return bitcoinQr;
-}
-
-function getExplorerOrWalletUri(
-  wallet: DonationCryptoWallet,
+function getWalletOpenUri(
+  wallet: DisplayWallet,
   donationAmount: string,
 ): string {
-  const address = wallet.address.trim();
+  const address = wallet.wallet_address.trim();
   const amountLabel = encodeURIComponent(
     `APFA donation ${donationAmount} USD`,
   );
 
-  const normalizedAsset = normalize(wallet.asset);
-  const normalizedNetwork = normalize(wallet.network);
-  const normalizedStandard = normalize(wallet.standard);
+  const asset = wallet.asset.symbol.trim().toUpperCase();
+  const network = wallet.asset.network.trim().toLowerCase();
 
   /*
-   * Bitcoin URI.
+   * The QR remains the authoritative payment payload: the exact wallet
+   * address stored in Supabase. We never convert USD into crypto units
+   * without a trusted exchange-rate/payment calculation layer.
    *
-   * A BTC amount cannot safely be generated from USD without an exchange
-   * rate. Therefore the address is authoritative and the USD amount is
-   * carried in the label rather than being falsely converted to BTC.
+   * These URI schemes are retained only for the existing direct-wallet
+   * button behavior. The QR itself contains the raw authoritative address.
    */
-  if (
-    normalizedAsset.includes("bitcoin") ||
-    normalizedAsset === "btc" ||
-    normalizedNetwork.includes("bitcoin")
-  ) {
+  if (asset === "BTC" || network === "bitcoin") {
     return `bitcoin:${encodeURIComponent(address)}?label=${amountLabel}`;
   }
 
-  /*
-   * Solana wallet URI.
-   *
-   * As with Bitcoin, we do not invent a SOL/USD exchange rate.
-   */
-  if (
-    normalizedAsset.includes("solana") ||
-    normalizedAsset === "sol" ||
-    normalizedNetwork.includes("solana")
-  ) {
+  if (asset === "SOL" || network === "solana") {
     return `solana:${encodeURIComponent(address)}?label=${amountLabel}`;
   }
 
-  /*
-   * TRON wallet URI.
-   */
-  if (
-    normalizedAsset.includes("tron") ||
-    normalizedAsset === "trx" ||
-    normalizedNetwork.includes("tron") ||
-    normalizedStandard.includes("trc")
-  ) {
+  if (asset === "TRX" || network === "tron") {
     return `tron:${encodeURIComponent(address)}?label=${amountLabel}`;
   }
 
-  /*
-   * EVM-compatible wallets.
-   *
-   * Do not place a USD value into the `value` parameter because EVM
-   * `value` is denominated in the native token's smallest unit.
-   *
-   * The destination is therefore opened directly while the selected
-   * donation amount remains explicitly identified in the label.
-   */
   if (
-    normalizedAsset.includes("ethereum") ||
-    normalizedAsset === "eth" ||
-    normalizedNetwork.includes("ethereum") ||
-    normalizedStandard.includes("erc") ||
-    normalizedAsset.includes("bnb") ||
-    normalizedNetwork.includes("bnb") ||
-    normalizedNetwork.includes("smartchain") ||
-    normalizedStandard.includes("bep") ||
-    normalizedAsset.includes("arbitrum") ||
-    normalizedNetwork.includes("arbitrum")
+    asset === "ETH" ||
+    asset === "BNB" ||
+    network === "ethereum" ||
+    network === "arbitrum one" ||
+    network === "bnb smart chain"
   ) {
     return `ethereum:${encodeURIComponent(address)}?label=${amountLabel}`;
   }
 
-  /*
-   * Generic fallback for an API-configured asset/network.
-   *
-   * This still uses the verified API address and never fabricates one.
-   */
-  return `ethereum:${encodeURIComponent(address)}?label=${amountLabel}`;
+  return address;
 }
 
 export function CryptoDonation() {
@@ -172,18 +81,24 @@ export function CryptoDonation() {
 
     setWalletsLoading(true);
 
-    void listCryptoDonationWallets()
-      .then((result) => {
+    void listActiveDonationWallets()
+      .then(async (result) => {
         if (cancelled) {
           return;
         }
 
-        const activeWallets = result.wallets
-          .filter((wallet) => wallet.enabled && wallet.address.trim())
-          .map((wallet) => ({
-            ...wallet,
-            qrImage: getWalletQrImage(wallet),
-          }));
+        const activeWallets = await Promise.all(
+          result
+            .filter((wallet) => wallet.wallet_address.trim())
+            .map(async (wallet) => ({
+              ...wallet,
+              qrImage: await generateWalletQr(wallet.wallet_address),
+            })),
+        );
+
+        if (cancelled) {
+          return;
+        }
 
         setWallets(activeWallets);
 
@@ -236,15 +151,43 @@ export function CryptoDonation() {
   );
 
   const paymentLabel = amountIsValid
-    ? `Pay $${numericAmount} USD with ${selectedWallet?.asset ?? "Crypto"}`
+    ? `Pay $${numericAmount} USD with ${selectedWallet?.asset.symbol ?? "Crypto"}`
     : "Enter Donation Amount";
 
-  function handlePaymentClick() {
+  async function handlePaymentClick() {
     if (!amountIsValid || !selectedWallet) {
       return;
     }
 
-    const paymentUri = getExplorerOrWalletUri(
+    const { data, error } = await supabase.functions.invoke(
+      "create-donation",
+      {
+        body: {
+          wallet_id: selectedWallet.id,
+          asset_id: selectedWallet.asset_id,
+          amount_requested: numericAmount.toString(),
+          amount_currency: "USD",
+        },
+      },
+    );
+
+    if (error) {
+      console.error("APFA donation creation failed:", error);
+      window.alert(
+        "We could not create the donation record. Please try again.",
+      );
+      return;
+    }
+
+    if (!data?.donation?.id || !data?.donation?.reference) {
+      console.error("APFA donation response was incomplete:", data);
+      window.alert(
+        "The donation record response was incomplete. Please try again.",
+      );
+      return;
+    }
+
+    const paymentUri = getWalletOpenUri(
       selectedWallet,
       numericAmount.toString(),
     );
@@ -266,7 +209,7 @@ export function CryptoDonation() {
       </h2>
 
       <p className="mt-2 text-sm leading-relaxed text-[#dcede1]">
-        Choose a contribution, select a verified network, then open your
+        Choose a contribution, select an active network, then open your
         compatible wallet using the configured destination.
       </p>
 
@@ -401,7 +344,7 @@ export function CryptoDonation() {
                       >
                         <img
                           src={wallet.qrImage}
-                          alt={`QR code for ${wallet.asset} on ${wallet.network}`}
+                          alt={`QR code for ${wallet.asset.symbol} on ${wallet.asset.network}`}
                           className="h-full w-full rounded-[8px] bg-white object-contain"
                         />
                       </div>
@@ -409,7 +352,7 @@ export function CryptoDonation() {
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
                           <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#9de2b4]">
-                            {wallet.asset}
+                            {wallet.asset.symbol}
                           </p>
 
                           {selected && (
@@ -420,15 +363,15 @@ export function CryptoDonation() {
                         </div>
 
                         <h3 className="mt-1 text-sm font-black uppercase tracking-[0.08em] text-[#efe9c7]">
-                          {wallet.network}
+                          {wallet.asset.network}
                         </h3>
 
                         <p className="mt-1 text-[9px] font-bold uppercase tracking-[0.12em] text-[#dcede1]">
-                          {wallet.standard}
+                          {wallet.label ?? wallet.asset.name}
                         </p>
 
                         <p className="mt-2 break-all text-[10px] leading-relaxed text-[#dcede1]">
-                          {wallet.address}
+                          {wallet.wallet_address}
                         </p>
                       </div>
                     </div>
@@ -444,40 +387,13 @@ export function CryptoDonation() {
                   "10px 11px 22px rgba(0,0,0,0.42), inset 2px 2px 5px rgba(255,255,255,0.05)",
               }}
             >
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                {[
-                  ["Bitcoin", bitcoinQr],
-                  ["Ethereum", ethereumQr],
-                  ["Solana", solanaQr],
-                  ["TRON", tronQr],
-                  ["BNB Smart Chain", bnbSmartChainQr],
-                  ["Arbitrum", arbitrumQr],
-                ].map(([label, image]) => (
-                  <div
-                    key={label}
-                    className="rounded-[14px] border-[2px] border-[#006b2b] bg-[#0a4623] p-2"
-                  >
-                    <img
-                      src={image}
-                      alt={`${label} cryptocurrency donation QR asset`}
-                      className="aspect-square w-full rounded-[9px] bg-white object-contain"
-                    />
-
-                    <p className="mt-2 text-center text-[8px] font-black uppercase tracking-[0.08em] text-[#efe9c7]">
-                      {label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              <p className="mt-4 text-center text-[10px] font-black uppercase tracking-[0.14em] text-[#ffe8b0]">
-                Live wallet verification is unavailable
+              <p className="text-center text-[10px] font-black uppercase tracking-[0.14em] text-[#ffe8b0]">
+                No active donation destination
               </p>
 
               <p className="mt-1 text-center text-xs leading-relaxed text-[#fff1c9]">
-                QR presentation assets remain available, but no active API
-                destination was returned. Do not send funds until a verified
-                destination appears.
+                No active wallet destination is currently available. Do not
+                send funds until an active destination appears.
               </p>
             </div>
           )}
@@ -499,7 +415,7 @@ export function CryptoDonation() {
         </button>
 
         <p className="mt-2 text-center text-[9px] font-bold uppercase tracking-[0.14em] text-[#dcede1]/80">
-          Your wallet opens with the verified API destination. The USD amount
+          Your wallet opens with the active configured destination. The USD amount
           is shown explicitly and is not falsely converted into crypto units.
         </p>
       </div>

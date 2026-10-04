@@ -1,10 +1,10 @@
 import { Copy, ExternalLink } from "lucide-react";
 import { useState } from "react";
 
-import type { DonationCryptoWallet } from "@/lib/api";
+import type { DonationWallet } from "@/lib/supabaseDonations";
 
 type CryptoWalletCardProps = {
-  wallet: DonationCryptoWallet & { qrImage: string };
+  wallet: DonationWallet & { qrImage: string };
 };
 
 export function CryptoWalletCard({
@@ -14,7 +14,7 @@ export function CryptoWalletCard({
 
   async function copyAddress() {
     try {
-      await navigator.clipboard.writeText(wallet.address);
+      await navigator.clipboard.writeText(wallet.wallet_address);
       setCopied(true);
 
       window.setTimeout(() => {
@@ -46,15 +46,15 @@ export function CryptoWalletCard({
           }}
         >
           <span className="text-lg font-black">
-            {wallet.asset === "BTC"
+            {wallet.asset.symbol === "BTC"
               ? "₿"
-              : wallet.asset === "ETH"
+              : wallet.asset.symbol === "ETH"
                 ? "Ξ"
-                : wallet.asset === "SOL"
+                : wallet.asset.symbol === "SOL"
                   ? "S"
-                  : wallet.network === "TRON"
+                  : wallet.asset.symbol === "TRX"
                     ? "₮"
-                    : wallet.asset.slice(0, 1)}
+                    : wallet.asset.symbol.slice(0, 1)}
           </span>
         </div>
 
@@ -64,15 +64,15 @@ export function CryptoWalletCard({
 
         <div className="min-w-0 flex-1 pt-0.5">
           <p className="truncate text-[10px] font-black uppercase tracking-[0.16em] text-[#9de2b4]">
-            {wallet.network}
+            {wallet.asset.network}
           </p>
 
           <h3 className="mt-0.5 truncate text-lg font-black uppercase tracking-[0.08em] text-[#efe9c7]">
-            {wallet.asset}
+            {wallet.asset.symbol}
           </h3>
 
           <p className="mt-0.5 truncate text-[10px] font-bold uppercase tracking-[0.12em] text-[#dcede1]">
-            {wallet.standard}
+            {wallet.label ?? wallet.asset.name}
           </p>
         </div>
 
@@ -90,7 +90,7 @@ export function CryptoWalletCard({
         >
           <img
             src={wallet.qrImage}
-            alt={`${wallet.network} ${wallet.asset} donation wallet QR code`}
+            alt={`${wallet.asset.network} ${wallet.asset.symbol} donation wallet QR code`}
             className="h-full w-full rounded-[7px] bg-white object-contain"
           />
         </div>
@@ -119,7 +119,7 @@ export function CryptoWalletCard({
         </p>
 
         <p className="break-all font-mono text-[11px] font-bold leading-relaxed text-[#12351f]">
-          {wallet.address}
+          {wallet.wallet_address}
         </p>
       </div>
 

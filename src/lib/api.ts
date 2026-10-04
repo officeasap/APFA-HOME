@@ -108,19 +108,6 @@ export type ApiErrorPayload = {
   };
 };
 
-export type DonationCryptoWallet = {
-  id: string;
-  asset: string;
-  network: string;
-  standard: string;
-  address: string;
-  enabled: boolean;
-};
-
-export type CryptoDonationWalletsResponse = {
-  wallets: DonationCryptoWallet[];
-};
-
 const API_BASE_URL = (
   import.meta.env["VITE_API_URL"] ?? "http://localhost:4001"
 ).replace(/\/+$/, "");
@@ -316,14 +303,6 @@ export async function completeLesson(
       method: "POST",
       body: JSON.stringify({}),
     },
-  );
-}
-
-export async function listCryptoDonationWallets(): Promise<
-  CryptoDonationWalletsResponse
-> {
-  return request<CryptoDonationWalletsResponse>(
-    "/api/donations/crypto",
   );
 }
 
