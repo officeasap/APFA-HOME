@@ -112,6 +112,9 @@ const API_BASE_URL = (
   import.meta.env["VITE_API_URL"] ?? "http://localhost:4001"
 ).replace(/\/+$/, "");
 
+const SUPABASE_FUNCTION_URL =
+  `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/apfa-auth`;
+
 const SESSION_TOKEN_KEY = "apfa_session_token";
 
 export class ApiError extends Error {
@@ -206,15 +209,54 @@ async function request<T>(
   return (await response.json()) as T;
 }
 
+async function authRequest<T>(
+  action: "register" | "login" | "me" | "logout",
+  body?: Record<string, unknown>,
+): Promise<T> {
+  const token = getStoredSessionToken();
+  const headers = new Headers({
+    "content-type": "application/json",
+    apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+  });
+
+  if (token) {
+    headers.set("authorization", `Bearer ${token}`);
+  }
+
+  const response = await fetch(SUPABASE_FUNCTION_URL, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      action,
+      ...(body ?? {}),
+    }),
+  });
+
+  if (!response.ok) {
+    let payload: ApiErrorPayload = {};
+
+    try {
+      payload = (await response.json()) as ApiErrorPayload;
+    } catch {
+      payload = {};
+    }
+
+    throw new ApiError(
+      payload.error?.message ?? "The authentication request could not be completed.",
+      response.status,
+      payload.error?.code ?? null,
+    );
+  }
+
+  return (await response.json()) as T;
+}
+
 export async function register(input: {
   email: string;
   password: string;
   fullName: string;
 }): Promise<AuthResponse> {
-  const result = await request<AuthResponse>("/api/auth/register", {
-    method: "POST",
-    body: JSON.stringify(input),
-  });
+  const result = await authRequest<AuthResponse>("register", input);
 
   setStoredSessionToken(result.session.token);
 
@@ -225,10 +267,7 @@ export async function login(input: {
   email: string;
   password: string;
 }): Promise<AuthResponse> {
-  const result = await request<AuthResponse>("/api/auth/login", {
-    method: "POST",
-    body: JSON.stringify(input),
-  });
+  const result = await authRequest<AuthResponse>("login", input);
 
   setStoredSessionToken(result.session.token);
 
@@ -237,16 +276,14 @@ export async function login(input: {
 
 export async function logout(): Promise<void> {
   try {
-    await request<void>("/api/auth/logout", {
-      method: "POST",
-    });
+    await authRequest("logout");
   } finally {
     clearStoredSessionToken();
   }
 }
 
 export async function getCurrentUser(): Promise<ApiUser> {
-  const result = await request<{ user: ApiUser }>("/api/users/me");
+  const result = await authRequest<{ user: ApiUser }>("me");
 
   return result.user;
 }
