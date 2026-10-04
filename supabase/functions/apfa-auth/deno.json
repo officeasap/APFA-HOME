@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "@supabase/supabase-js": "npm:@supabase/supabase-js@2",
+    "scrypt-js": "npm:scrypt-js@3.0.1"
+  }
+}
