@@ -1,0 +1,37 @@
+{
+  "schema_version": "A-06.1",
+  "name": "APFA Canonical Content Package",
+  "purpose": "Canonical student/support content package derived from the normalized APFA educational source inventory.",
+  "source_artifact_count": 272,
+  "content_record_count": 272,
+  "course_count": 5,
+  "course_ids": [
+    "artificial-intelligence",
+    "cybersecurity",
+    "data-science",
+    "generative-ai",
+    "machine-learning"
+  ],
+  "artifact_role_counts": {
+    "assignment": 57,
+    "course": 5,
+    "example": 2,
+    "lab": 12,
+    "lesson": 100,
+    "module": 45,
+    "quiz": 8,
+    "solution": 25,
+    "support": 18
+  },
+  "content_format": "markdown",
+  "integrity": {
+    "sha256": true,
+    "source_files_verified": true,
+    "five_course_roots_verified": true,
+    "security_101_root_course_repaired": true
+  },
+  "outputs": {
+    "jsonl": "_apfa_inventory/A-06-canonical-content-package.jsonl",
+    "manifest": "_apfa_inventory/A-06-canonical-content-manifest.tsv"
+  }
+}

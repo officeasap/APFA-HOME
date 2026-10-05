@@ -1,0 +1,92 @@
+{
+  "schema_version": "A-05.1",
+  "name": "APFA Canonical Curriculum Architecture",
+  "purpose": "Canonical bridge between educational source repositories and the APFA curriculum platform.",
+  "student_learning_path": [
+    "course",
+    "module",
+    "lesson",
+    "assignment_or_lab",
+    "quiz",
+    "completion",
+    "certificate"
+  ],
+  "course_count": 5,
+  "source_artifact_count": 272,
+  "artifact_roles": [
+    "course",
+    "module",
+    "lesson",
+    "assignment",
+    "lab",
+    "quiz",
+    "solution",
+    "example",
+    "support"
+  ],
+  "student_visible_roles": [
+    "course",
+    "module",
+    "lesson",
+    "assignment",
+    "lab",
+    "quiz",
+    "example"
+  ],
+  "support_roles": [
+    "solution",
+    "support"
+  ],
+  "courses": [
+    {
+      "course_id": "data-science",
+      "slug": "data-science",
+      "title": "Data Science",
+      "source_repo": "data-science-for-beginners",
+      "description": "Learn how data is collected, prepared, analyzed, visualized, communicated, and applied to real-world problems.",
+      "domain": "Data & Computing",
+      "level": "Beginner",
+      "status": "canonical"
+    },
+    {
+      "course_id": "machine-learning",
+      "slug": "machine-learning",
+      "title": "Machine Learning",
+      "source_repo": "ml-for-beginners",
+      "description": "Learn the foundations of machine learning, including regression, classification, clustering, NLP, time series, and reinforcement learning.",
+      "domain": "Artificial Intelligence",
+      "level": "Beginner",
+      "status": "canonical"
+    },
+    {
+      "course_id": "artificial-intelligence",
+      "slug": "artificial-intelligence",
+      "title": "Artificial Intelligence",
+      "source_repo": "ai-for-beginners",
+      "description": "Explore the foundations of artificial intelligence, neural networks, computer vision, natural language processing, deep learning, and intelligent systems.",
+      "domain": "Artificial Intelligence",
+      "level": "Beginner",
+      "status": "canonical"
+    },
+    {
+      "course_id": "generative-ai",
+      "slug": "generative-ai",
+      "title": "Generative AI",
+      "source_repo": "generative-ai-for-beginners",
+      "description": "Learn how modern generative AI systems work and how to responsibly build applications using LLMs, RAG, agents, prompt engineering, and AI security.",
+      "domain": "Artificial Intelligence",
+      "level": "Beginner",
+      "status": "canonical"
+    },
+    {
+      "course_id": "cybersecurity",
+      "slug": "cybersecurity",
+      "title": "Cybersecurity",
+      "source_repo": "security-101",
+      "description": "Learn core cybersecurity concepts including security principles, identity, networking, SecOps, AppSec, infrastructure, data, and AI security.",
+      "domain": "Cybersecurity",
+      "level": "Beginner",
+      "status": "canonical"
+    }
+  ]
+}

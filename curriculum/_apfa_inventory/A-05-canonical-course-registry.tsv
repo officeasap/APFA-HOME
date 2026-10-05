@@ -1,0 +1,6 @@
+course_id	slug	title	domain	level	source_repo	description	status
+data-science	data-science	Data Science	Data & Computing	Beginner	data-science-for-beginners	Learn how data is collected, prepared, analyzed, visualized, communicated, and applied to real-world problems.	canonical
+machine-learning	machine-learning	Machine Learning	Artificial Intelligence	Beginner	ml-for-beginners	Learn the foundations of machine learning, including regression, classification, clustering, NLP, time series, and reinforcement learning.	canonical
+artificial-intelligence	artificial-intelligence	Artificial Intelligence	Artificial Intelligence	Beginner	ai-for-beginners	Explore the foundations of artificial intelligence, neural networks, computer vision, natural language processing, deep learning, and intelligent systems.	canonical
+generative-ai	generative-ai	Generative AI	Artificial Intelligence	Beginner	generative-ai-for-beginners	Learn how modern generative AI systems work and how to responsibly build applications using LLMs, RAG, agents, prompt engineering, and AI security.	canonical
+cybersecurity	cybersecurity	Cybersecurity	Cybersecurity	Beginner	security-101	Learn core cybersecurity concepts including security principles, identity, networking, SecOps, AppSec, infrastructure, data, and AI security.	canonical
