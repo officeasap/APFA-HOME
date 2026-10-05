@@ -1,3 +1,5 @@
+import { supabase } from "./supabase";
+
 export type ApiUser = {
   id: string;
   email: string;
@@ -108,12 +110,16 @@ export type ApiErrorPayload = {
   };
 };
 
-const API_BASE_URL = (
-  import.meta.env["VITE_API_URL"] ?? "http://localhost:4001"
-).replace(/\/+$/, "");
+const SUPABASE_URL = import.meta.env["VITE_SUPABASE_URL"];
 
-const SUPABASE_FUNCTION_URL =
-  `${import.meta.env["VITE_SUPABASE_URL"]}/functions/v1/apfa-auth`;
+const SUPABASE_PUBLISHABLE_KEY =
+  import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"];
+
+const SUPABASE_AUTH_FUNCTION_URL =
+  `${SUPABASE_URL}/functions/v1/apfa-auth`;
+
+const SUPABASE_EDUCATION_FUNCTION_URL =
+  `${SUPABASE_URL}/functions/v1/apfa-education`;
 
 const SESSION_TOKEN_KEY = "apfa_session_token";
 
@@ -165,66 +171,47 @@ export function clearSession(): void {
   clearStoredSessionToken();
 }
 
-async function request<T>(
-  path: string,
-  options: RequestInit = {},
-): Promise<T> {
+function createFunctionHeaders(): Headers {
+  const headers = new Headers({
+    "content-type": "application/json",
+    apikey: SUPABASE_PUBLISHABLE_KEY,
+  });
+
   const token = getStoredSessionToken();
-
-  const headers = new Headers(options.headers);
-
-  if (options.body && !headers.has("content-type")) {
-    headers.set("content-type", "application/json");
-  }
 
   if (token) {
     headers.set("authorization", `Bearer ${token}`);
   }
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
-    headers,
-  });
+  return headers;
+}
 
-  if (!response.ok) {
-    let payload: ApiErrorPayload = {};
+async function parseApiError(
+  response: Response,
+  fallbackMessage: string,
+): Promise<ApiError> {
+  let payload: ApiErrorPayload = {};
 
-    try {
-      payload = (await response.json()) as ApiErrorPayload;
-    } catch {
-      payload = {};
-    }
-
-    throw new ApiError(
-      payload.error?.message ?? "The request could not be completed.",
-      response.status,
-      payload.error?.code ?? null,
-    );
+  try {
+    payload = (await response.json()) as ApiErrorPayload;
+  } catch {
+    payload = {};
   }
 
-  if (response.status === 204) {
-    return undefined as T;
-  }
-
-  return (await response.json()) as T;
+  return new ApiError(
+    payload.error?.message ?? fallbackMessage,
+    response.status,
+    payload.error?.code ?? null,
+  );
 }
 
 async function authRequest<T>(
   action: "register" | "login" | "me" | "logout",
   body?: Record<string, unknown>,
 ): Promise<T> {
-  const token = getStoredSessionToken();
+  const headers = createFunctionHeaders();
 
-  const headers = new Headers({
-    "content-type": "application/json",
-    apikey: import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"],
-  });
-
-  if (token) {
-    headers.set("authorization", `Bearer ${token}`);
-  }
-
-  const response = await fetch(SUPABASE_FUNCTION_URL, {
+  const response = await fetch(SUPABASE_AUTH_FUNCTION_URL, {
     method: "POST",
     headers,
     body: JSON.stringify({
@@ -234,19 +221,48 @@ async function authRequest<T>(
   });
 
   if (!response.ok) {
-    let payload: ApiErrorPayload = {};
+    throw await parseApiError(
+      response,
+      "The authentication request could not be completed.",
+    );
+  }
 
-    try {
-      payload = (await response.json()) as ApiErrorPayload;
-    } catch {
-      payload = {};
-    }
+  return (await response.json()) as T;
+}
 
+async function educationRequest<T>(
+  action:
+    | "update_profile"
+    | "lesson_progress"
+    | "complete_lesson"
+    | "screening_registration",
+  body?: Record<string, unknown>,
+): Promise<T> {
+  const token = getStoredSessionToken();
+
+  if (!token) {
     throw new ApiError(
-      payload.error?.message ??
-        "The authentication request could not be completed.",
-      response.status,
-      payload.error?.code ?? null,
+      "You must be signed in to continue.",
+      401,
+      "AUTH_REQUIRED",
+    );
+  }
+
+  const headers = createFunctionHeaders();
+
+  const response = await fetch(SUPABASE_EDUCATION_FUNCTION_URL, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      action,
+      ...(body ?? {}),
+    }),
+  });
+
+  if (!response.ok) {
+    throw await parseApiError(
+      response,
+      "The APFA education request could not be completed.",
     );
   }
 
@@ -278,7 +294,9 @@ export async function login(input: {
 
 export async function logout(): Promise<void> {
   try {
-    await authRequest("logout");
+    if (getStoredSessionToken()) {
+      await authRequest("logout");
+    }
   } finally {
     clearStoredSessionToken();
   }
@@ -293,56 +311,201 @@ export async function getCurrentUser(): Promise<ApiUser> {
 export async function updateCurrentUser(
   input: UpdateCurrentUserInput,
 ): Promise<ApiUser> {
-  const result = await request<{ user: ApiUser }>("/api/users/me", {
-    method: "PATCH",
-    body: JSON.stringify(input),
-  });
+  const result = await educationRequest<{ user: ApiUser }>(
+    "update_profile",
+    input,
+  );
 
   return result.user;
 }
 
 export async function listSubjects(): Promise<Subject[]> {
-  const result = await request<SubjectsResponse>(
-    "/api/education/subjects",
-  );
+  const { data, error } = await supabase
+    .from("education_subjects")
+    .select(
+      `
+        id,
+        name,
+        slug,
+        description
+      `,
+    )
+    .order("position", { ascending: true });
 
-  return result.subjects;
+  if (error) {
+    throw new ApiError(
+      error.message,
+      500,
+      error.code ?? "EDUCATION_SUBJECTS_ERROR",
+    );
+  }
+
+  return (data ?? []) as Subject[];
 }
 
 export async function listCoursesBySubject(
   subjectSlug: string,
 ): Promise<CoursesResponse> {
-  return request<CoursesResponse>(
-    `/api/education/subjects/${encodeURIComponent(subjectSlug)}/courses`,
-  );
+  const { data: subject, error: subjectError } = await supabase
+    .from("education_subjects")
+    .select(
+      `
+        id,
+        name,
+        slug,
+        description
+      `,
+    )
+    .eq("slug", subjectSlug)
+    .maybeSingle();
+
+  if (subjectError) {
+    throw new ApiError(
+      subjectError.message,
+      500,
+      subjectError.code ?? "EDUCATION_SUBJECT_ERROR",
+    );
+  }
+
+  if (!subject) {
+    throw new ApiError(
+      "The requested subject could not be found.",
+      404,
+      "SUBJECT_NOT_FOUND",
+    );
+  }
+
+  const { data: courses, error: coursesError } = await supabase
+    .from("education_courses")
+    .select(
+      `
+        id,
+        title,
+        slug,
+        description,
+        position
+      `,
+    )
+    .eq("subject_id", subject.id)
+    .order("position", { ascending: true });
+
+  if (coursesError) {
+    throw new ApiError(
+      coursesError.message,
+      500,
+      coursesError.code ?? "EDUCATION_COURSES_ERROR",
+    );
+  }
+
+  const normalizedSubject = subject as Subject;
+
+  return {
+    subject: normalizedSubject,
+    courses: (courses ?? []).map((course) => ({
+      id: course.id,
+      title: course.title,
+      slug: course.slug,
+      description: course.description,
+      subject: normalizedSubject,
+    })),
+  };
 }
 
 export async function listLessonsByCourse(
   courseSlug: string,
 ): Promise<LessonsResponse> {
-  return request<LessonsResponse>(
-    `/api/education/courses/${encodeURIComponent(courseSlug)}/lessons`,
-  );
+  const { data: course, error: courseError } = await supabase
+    .from("education_courses")
+    .select(
+      `
+        id,
+        title,
+        slug,
+        description,
+        position,
+        education_subjects (
+          id,
+          name,
+          slug,
+          description
+        )
+      `,
+    )
+    .eq("slug", courseSlug)
+    .maybeSingle();
+
+  if (courseError) {
+    throw new ApiError(
+      courseError.message,
+      500,
+      courseError.code ?? "EDUCATION_COURSE_ERROR",
+    );
+  }
+
+  if (!course) {
+    throw new ApiError(
+      "The requested course could not be found.",
+      404,
+      "COURSE_NOT_FOUND",
+    );
+  }
+
+  const subject = course.education_subjects as unknown as Subject;
+
+  const { data: lessons, error: lessonsError } = await supabase
+    .from("education_lessons")
+    .select(
+      `
+        id,
+        title,
+        slug,
+        content,
+        position
+      `,
+    )
+    .eq("course_id", course.id)
+    .order("position", { ascending: true });
+
+  if (lessonsError) {
+    throw new ApiError(
+      lessonsError.message,
+      500,
+      lessonsError.code ?? "EDUCATION_LESSONS_ERROR",
+    );
+  }
+
+  const normalizedCourse: Course = {
+    id: course.id,
+    title: course.title,
+    slug: course.slug,
+    description: course.description,
+    subject,
+  };
+
+  return {
+    course: normalizedCourse,
+    lessons: (lessons ?? []) as Lesson[],
+  };
 }
 
 export async function getLessonProgress(
   lessonId: string,
 ): Promise<LessonProgressResponse> {
-  return request<LessonProgressResponse>(
-    `/api/education/lessons/${encodeURIComponent(lessonId)}/progress`,
+  return educationRequest<LessonProgressResponse>(
+    "lesson_progress",
+    {
+      lessonId,
+    },
   );
 }
 
 export async function completeLesson(
   lessonId: string,
 ): Promise<LessonProgressResponse> {
-  return request<LessonProgressResponse>(
-    `/api/education/lessons/${encodeURIComponent(lessonId)}/progress`,
+  return educationRequest<LessonProgressResponse>(
+    "complete_lesson",
     {
-      method: "POST",
-      body: JSON.stringify({
-        completed: true,
-      }),
+      lessonId,
     },
   );
 }
@@ -350,11 +513,8 @@ export async function completeLesson(
 export async function createScreeningRegistration(
   input: ScreeningRegistrationInput,
 ): Promise<ScreeningRegistrationResponse> {
-  return request<ScreeningRegistrationResponse>(
-    "/api/screening/registrations",
-    {
-      method: "POST",
-      body: JSON.stringify(input),
-    },
+  return educationRequest<ScreeningRegistrationResponse>(
+    "screening_registration",
+    input,
   );
 }
