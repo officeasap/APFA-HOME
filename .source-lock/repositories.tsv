@@ -1,0 +1,10 @@
+repo|branch|commit|commit_date|remote|license_path
+ai-agents-for-beginners|main|25b7985f3b2dc37a84f4a7387ccd3c9f0e5b1595|2026-09-10T00:35:03+01:00|https://github.com/microsoft/ai-agents-for-beginners.git|ai-agents-for-beginners/LICENSE
+ai-for-beginners|main|392d0df1b2647cbee104942390551f1ed9e072c8|2026-09-04T16:24:51+01:00|https://github.com/microsoft/ai-for-beginners.git|ai-for-beginners/LICENSE
+ai-robot-challenge-lab|master|6868c8d3b739b7fe8f1e582316fc46d80ec27ceb|2023-06-12T19:29:32Z|https://github.com/microsoft/AI-Robot-Challenge-Lab.git|ai-robot-challenge-lab/LICENSE
+data-science-for-beginners|main|4d2ac427ad6f022e73a75c4f46a28bbb7978ec3f|2026-07-17T21:10:36+01:00|https://github.com/microsoft/Data-Science-For-Beginners.git|data-science-for-beginners/LICENSE
+generative-ai-for-beginners|main|d8ec07e31c4b32bd283d565c1abd9b58bb5cf2e8|2026-09-18T14:43:04+01:00|https://github.com/microsoft/generative-ai-for-beginners.git|generative-ai-for-beginners/LICENSE
+iot-for-beginners|main|6ae558ee2b0aaade53f08b0f76505d5ea9736c43|2026-05-26T22:50:02+01:00|https://github.com/microsoft/IoT-For-Beginners.git|iot-for-beginners/LICENSE
+mcp-for-beginners|main|2f43408b764326df5fc928984c6dd7db2b8fb63e|2026-09-11T08:34:25+01:00|https://github.com/microsoft/mcp-for-beginners.git|mcp-for-beginners/LICENSE
+ml-for-beginners|main|de2d4e12236445198213a0711855e348e7253cd4|2026-09-14T20:45:03+01:00|https://github.com/microsoft/ml-for-beginners.git|ml-for-beginners/LICENSE
+security-101|main|b0a31ff7ebb9983d24bcdc6a38a4d008e6e89d0c|2026-08-24T14:31:36Z|https://github.com/microsoft/Security-101.git|security-101/LICENSE
