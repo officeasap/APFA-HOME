@@ -491,12 +491,79 @@ export async function listLessonsByCourse(
 export async function getLessonProgress(
   lessonId: string,
 ): Promise<LessonProgressResponse> {
-  return educationRequest<LessonProgressResponse>(
-    "lesson_progress",
-    {
-      lessonId,
+  const { data: lesson, error: lessonError } = await supabase
+    .from("education_lessons")
+    .select(
+      `
+        id,
+        title,
+        slug,
+        content,
+        position,
+        course_id,
+        education_courses (
+          id,
+          title,
+          slug,
+          description,
+          position,
+          education_subjects (
+            id,
+            name,
+            slug,
+            description
+          )
+        )
+      `,
+    )
+    .eq("id", lessonId)
+    .maybeSingle();
+
+  if (lessonError) {
+    throw new ApiError(
+      lessonError.message,
+      500,
+      lessonError.code ?? "EDUCATION_LESSON_ERROR",
+    );
+  }
+
+  if (!lesson) {
+    throw new ApiError(
+      "The requested lesson could not be found.",
+      404,
+      "LESSON_NOT_FOUND",
+    );
+  }
+
+  const course = lesson.education_courses as unknown as {
+    id: string;
+    title: string;
+    slug: string;
+    description: string | null;
+    position: number;
+    education_subjects: Subject;
+  };
+
+  const normalizedCourse: Course = {
+    id: course.id,
+    title: course.title,
+    slug: course.slug,
+    description: course.description,
+    subject: course.education_subjects,
+  };
+
+  return {
+    lesson: {
+      id: lesson.id,
+      title: lesson.title,
+      slug: lesson.slug,
+      content: lesson.content,
+      position: lesson.position,
+      courseId: lesson.course_id,
+      course: normalizedCourse,
     },
-  );
+    progress: null,
+  };
 }
 
 export async function completeLesson(
